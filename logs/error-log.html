@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Mon Dec 28 14:39:06 CST 2020</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Level">Level</td>
+<td class="Date">Date</td>
+<td class="Message">Message</td>
+<td class="MethodOfCaller">MethodOfCaller</td>
+<td class="FileOfCaller">FileOfCaller</td>
+<td class="LineOfCaller">LineOfCaller</td>
+</tr>
+
+
+<tr class="error even">
+<td class="Level">ERROR</td>
+<td class="Date">2020-12-28 14:39:19,762</td>
+<td class="Message">Application run failed</td>
+<td class="MethodOfCaller">reportFailure</td>
+<td class="FileOfCaller">SpringApplication.java</td>
+<td class="LineOfCaller">837</td>
+</tr>
+<tr><td class="Exception" colspan="6">org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis; nested exception is org.springframework.data.redis.connection.PoolException: Could not get a resource from the pool; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to 127.0.0.1:6379
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1534)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1442)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getNativeConnection(LettuceConnectionFactory.java:1228)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getConnection(LettuceConnectionFactory.java:1211)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getSharedConnection(LettuceConnectionFactory.java:975)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getConnection(LettuceConnectionFactory.java:360)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.core.RedisConnectionUtils.doGetConnection(RedisConnectionUtils.java:134)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:97)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:84)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:215)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:188)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:96)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.core.DefaultValueOperations.set(DefaultValueOperations.java:236)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.jeecg.modules.system.service.impl.SysGatewayRouteServiceImpl.addRoute2Redis(SysGatewayRouteServiceImpl.java:41)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.jeecg.modules.system.service.impl.SysGatewayRouteServiceImpl$$FastClassBySpringCGLIB$$3a99db8a.invoke(&lt;generated&gt;)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:687)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.jeecg.modules.system.service.impl.SysGatewayRouteServiceImpl$$EnhancerBySpringCGLIB$$a22011f1.addRoute2Redis(&lt;generated&gt;)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.jeecg.modules.init.SystemInitListener.onApplicationEvent(SystemInitListener.java:29)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.jeecg.modules.init.SystemInitListener.onApplicationEvent(SystemInitListener.java:16)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:404)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:361)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.boot.context.event.EventPublishingRunListener.running(EventPublishingRunListener.java:108)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.boot.SpringApplicationRunListeners.running(SpringApplicationRunListeners.java:77)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.boot.SpringApplication.run(SpringApplication.java:330)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.jeecg.JeecgSystemApplication.main(JeecgSystemApplication.java:34)
+<br />Caused by: org.springframework.data.redis.connection.PoolException: Could not get a resource from the pool; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to 127.0.0.1:6379
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettucePoolingConnectionProvider.getConnection(LettucePoolingConnectionProvider.java:109)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1440)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;	... 29 common frames omitted
+<br />Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to 127.0.0.1:6379
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:78)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:56)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.lettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:242)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.lettuce.core.RedisClient.connect(RedisClient.java:206)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.lambda$getConnection$1(StandaloneConnectionProvider.java:115)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.util.Optional.orElseGet(Optional.java:267)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.getConnection(StandaloneConnectionProvider.java:115)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettucePoolingConnectionProvider.lambda$null$0(LettucePoolingConnectionProvider.java:97)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.lettuce.core.support.ConnectionPoolSupport$RedisPooledObjectFactory.create(ConnectionPoolSupport.java:211)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.lettuce.core.support.ConnectionPoolSupport$RedisPooledObjectFactory.create(ConnectionPoolSupport.java:201)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:58)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:899)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:429)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:354)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.lettuce.core.support.ConnectionPoolSupport$1.borrowObject(ConnectionPoolSupport.java:122)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.lettuce.core.support.ConnectionPoolSupport$1.borrowObject(ConnectionPoolSupport.java:117)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.data.redis.connection.lettuce.LettucePoolingConnectionProvider.getConnection(LettucePoolingConnectionProvider.java:103)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;	... 30 common frames omitted
+io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:6379
+java.net.ConnectException: Connection refused: no further information
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:715)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:330)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:702)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.Thread.run(Thread.java:748)
+</td></tr><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Mon Dec 28 15:06:44 CST 2020</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Level">Level</td>
+<td class="Date">Date</td>
+<td class="Message">Message</td>
+<td class="MethodOfCaller">MethodOfCaller</td>
+<td class="FileOfCaller">FileOfCaller</td>
+<td class="LineOfCaller">LineOfCaller</td>
+</tr>
+
