@@ -18,7 +18,8 @@ module.exports = {
             '@utils': resolve('src/utils'),
             '@entry': resolve('src/entry'),
             '@router': resolve('src/router'),
-            '@store': resolve('src/store')
+            '@store': resolve('src/store'),
+            'jquery': path.resolve(__dirname,'../node_modules/jquery/src/jquery')
         }
     },
 }

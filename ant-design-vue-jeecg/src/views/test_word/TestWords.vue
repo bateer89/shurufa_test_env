@@ -1,8 +1,8 @@
 <template>
   <a-card :bordered="false">
-  
-  <input type="text" placeholder="输入" v-model="inputVal"  v-on:input="check()" value="" />
-<input type="text" placeholder="请输入" @keyup="show($event)">
+
+  <input id="testInput" type="text" placeholder="请输入" @keyup="textchange($event)">
+
   </a-card>
 </template>
 
@@ -13,9 +13,10 @@
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   // import ZnWordsModal from './modules/ZnWordsModal'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
-   import Vue from 'vue' 
+  import Vue from 'vue' 
+  import $ from 'jquery'
   // Vue.use(Element)
-
+  var char = "王";
   export default {
     name: 'TestWords',
     mixins:[JeecgListMixin, mixinDevice],
@@ -50,9 +51,16 @@
         dictOptions:{},
         superFieldList:[],
         inputVal:"",
+        code:"yyuy",
+        char:"王",
       }
     },
     created() {
+      $(function(){
+        $("#testId").val("");
+        $("#result").val("wrong");
+        $("#charResult").val("wrong");
+    });
     },
     computed: {
       // importExcelUrl: function(){
@@ -60,29 +68,27 @@
       // },
     },
     methods: {
-      check(){
-        console.log(this.inputVal,"okkkkkkkkkkkkk");
-      },
-      show($event){
-        console.log($event,"okkkkkkkkkkkkk");
-      }
-      // initDictConfig(){
-      // },
-      // getSuperFieldList(){
-      //   let fieldList=[];
-      //   fieldList.push({type:'string',value:'words',text:'汉字',dictCode:''})
-      //   fieldList.push({type:'string',value:'keyboardSequence',text:'键盘序',dictCode:''})
-      //   fieldList.push({type:'string',value:'code1',text:'code1',dictCode:''})
-      //   fieldList.push({type:'string',value:'code2',text:'code2',dictCode:''})
-      //   fieldList.push({type:'string',value:'code3',text:'code3',dictCode:''})
-      //   fieldList.push({type:'int',value:'ifAllPassed',text:'是否正确0:no;1:yes',dictCode:''})
-      //   fieldList.push({type:'int',value:'ifChecked',text:'是否检查过',dictCode:''})
-      //   fieldList.push({type:'string',value:'checkerid',text:'检查者id',dictCode:''})
-      //   fieldList.push({type:'string',value:'checkername',text:'检查者name',dictCode:''})
-      //   this.superFieldList = fieldList
-      // }
+      init(){
+		    
+	    },
+      textchange()
+    {
+        if($("#testInput").val() === 'yyuy')
+        {
+            $("#result").val("right");
+            console.log("ok!");
+        }
+
+        if($("#testInput").val() === char)
+        {
+            $("#charResult").val("right");
+            console.log("no ok!");
+        }
     }
+    }
+    
   }
+
 </script>
 <style scoped>
   @import '~@assets/less/common.less';
