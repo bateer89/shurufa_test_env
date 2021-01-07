@@ -10,39 +10,24 @@
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="汉字id">
-              <a-input placeholder="请输入汉字id" v-model="queryParam.wordsId"></a-input>
+            <a-form-item label="任务分组id">
+              <a-input placeholder="请输入任务分组id" v-model="queryParam.groupId"></a-input>
             </a-form-item>
           </a-col>
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="分组id">
-                <a-input placeholder="请输入分组id" v-model="queryParam.groupId"></a-input>
+              <a-form-item label="任务分组名称">
+                <a-input placeholder="请输入任务分组名称" v-model="queryParam.groupName"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="是否检查过">
-                <a-input placeholder="请输入是否检查过" v-model="queryParam.ifChecked"></a-input>
+              <a-form-item label="用户账号">
+                <a-input placeholder="请输入用户账号" v-model="queryParam.userCode"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="是否通过">
-                <a-input placeholder="请输入是否通过" v-model="queryParam.ifPassed"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="成功的输入">
-                <a-input placeholder="请输入成功的输入" v-model="queryParam.input"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="反馈类型">
-                <a-input placeholder="请输入反馈类型" v-model="queryParam.feedbackType"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="反馈备注">
-                <a-input placeholder="请输入反馈备注" v-model="queryParam.feedbackRemark"></a-input>
+              <a-form-item label="用户姓名">
+                <a-input placeholder="请输入用户姓名" v-model="queryParam.userName"></a-input>
               </a-form-item>
             </a-col>
           </template>
@@ -64,7 +49,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('用户汉字完成表')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('用户任务表')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -141,7 +126,7 @@
       </a-table>
     </div>
 
-    <zn-user-words-modal ref="modalForm" @ok="modalFormOk"></zn-user-words-modal>
+    <zn-user-group-modal ref="modalForm" @ok="modalFormOk"></zn-user-group-modal>
   </a-card>
 </template>
 
@@ -150,19 +135,19 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import ZnUserWordsModal from './modules/ZnUserWordsModal'
+  import ZnUserGroupModal from './modules/ZnUserGroupModal'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
   export default {
-    name: 'ZnUserWordsList',
+    name: 'ZnUserGroupList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      ZnUserWordsModal,
+      ZnUserGroupModal,
       JSuperQuery,
     },
     data () {
       return {
-        description: '用户汉字完成表管理页面',
+        description: '用户任务表管理页面',
         // 表头
         columns: [
           {
@@ -181,39 +166,24 @@
             dataIndex: 'userId'
           },
           {
-            title:'汉字id',
-            align:"center",
-            dataIndex: 'wordsId'
-          },
-          {
-            title:'分组id',
+            title:'任务分组id',
             align:"center",
             dataIndex: 'groupId'
           },
           {
-            title:'是否检查过',
+            title:'任务分组名称',
             align:"center",
-            dataIndex: 'ifChecked'
+            dataIndex: 'groupName'
           },
           {
-            title:'是否通过',
+            title:'用户账号',
             align:"center",
-            dataIndex: 'ifPassed'
+            dataIndex: 'userCode'
           },
           {
-            title:'成功的输入',
+            title:'用户姓名',
             align:"center",
-            dataIndex: 'input'
-          },
-          {
-            title:'反馈类型',
-            align:"center",
-            dataIndex: 'feedbackType'
-          },
-          {
-            title:'反馈备注',
-            align:"center",
-            dataIndex: 'feedbackRemark'
+            dataIndex: 'userName'
           },
           {
             title: '操作',
@@ -225,11 +195,11 @@
           }
         ],
         url: {
-          list: "/words/znUserWords/list",
-          delete: "/words/znUserWords/delete",
-          deleteBatch: "/words/znUserWords/deleteBatch",
-          exportXlsUrl: "/words/znUserWords/exportXls",
-          importExcelUrl: "words/znUserWords/importExcel",
+          list: "/usergroup/znUserGroup/list",
+          delete: "/usergroup/znUserGroup/delete",
+          deleteBatch: "/usergroup/znUserGroup/deleteBatch",
+          exportXlsUrl: "/usergroup/znUserGroup/exportXls",
+          importExcelUrl: "usergroup/znUserGroup/importExcel",
           
         },
         dictOptions:{},
@@ -250,13 +220,10 @@
       getSuperFieldList(){
         let fieldList=[];
         fieldList.push({type:'string',value:'userId',text:'用户id',dictCode:''})
-        fieldList.push({type:'int',value:'wordsId',text:'汉字id',dictCode:''})
-        fieldList.push({type:'int',value:'groupId',text:'分组id',dictCode:''})
-        fieldList.push({type:'int',value:'ifChecked',text:'是否检查过',dictCode:''})
-        fieldList.push({type:'int',value:'ifPassed',text:'是否通过',dictCode:''})
-        fieldList.push({type:'string',value:'input',text:'成功的输入',dictCode:''})
-        fieldList.push({type:'int',value:'feedbackType',text:'反馈类型',dictCode:''})
-        fieldList.push({type:'string',value:'feedbackRemark',text:'反馈备注',dictCode:''})
+        fieldList.push({type:'int',value:'groupId',text:'任务分组id',dictCode:''})
+        fieldList.push({type:'string',value:'groupName',text:'任务分组名称',dictCode:''})
+        fieldList.push({type:'string',value:'userCode',text:'用户账号',dictCode:''})
+        fieldList.push({type:'string',value:'userName',text:'用户姓名',dictCode:''})
         this.superFieldList = fieldList
       }
     }
