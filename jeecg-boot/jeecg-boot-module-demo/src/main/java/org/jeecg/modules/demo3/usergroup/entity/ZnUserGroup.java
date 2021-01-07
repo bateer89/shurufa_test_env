@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 /**
  * @Description: 用户任务表
  * @Author: jeecg-boot
- * @Date:   2021-01-06
+ * @Date:   2021-01-07
  * @Version: V1.0
  */
 @Data
@@ -55,23 +55,26 @@ public class ZnUserGroup implements Serializable {
     @ApiModelProperty(value = "所属部门")
     private java.lang.String sysOrgCode;
 	/**用户id*/
-	@Excel(name = "用户id", width = 15)
+	@Excel(name = "用户id", width = 15, dictTable = "sys_user", dicText = "realname", dicCode = "id")
+	@Dict(dictTable = "sys_user", dicText = "realname", dicCode = "id")
     @ApiModelProperty(value = "用户id")
     private java.lang.String userId;
-	/**任务分组id*/
-	@Excel(name = "任务分组id", width = 15)
-    @ApiModelProperty(value = "任务分组id")
-    private java.lang.Integer groupId;
-	/**任务分组名称*/
-	@Excel(name = "任务分组名称", width = 15)
-    @ApiModelProperty(value = "任务分组名称")
-    private java.lang.String groupName;
 	/**用户账号*/
-	@Excel(name = "用户账号", width = 15)
+	@Excel(name = "用户账号", width = 15, dictTable = "sys_user", dicText = "realname", dicCode = "username")
+	@Dict(dictTable = "sys_user", dicText = "realname", dicCode = "username")
     @ApiModelProperty(value = "用户账号")
     private java.lang.String userCode;
 	/**用户姓名*/
 	@Excel(name = "用户姓名", width = 15)
     @ApiModelProperty(value = "用户姓名")
     private java.lang.String userName;
+	/**任务分组id*/
+	@Excel(name = "任务分组id", width = 15, dictTable = "zn_group_name", dicText = "group_name", dicCode = "group_id")
+	@Dict(dictTable = "zn_group_name", dicText = "group_name", dicCode = "group_id")
+    @ApiModelProperty(value = "任务分组id")
+    private java.lang.Integer groupId;
+	/**任务分组名称*/
+	@Excel(name = "任务分组名称", width = 15)
+    @ApiModelProperty(value = "任务分组名称")
+    private java.lang.String groupName;
 }

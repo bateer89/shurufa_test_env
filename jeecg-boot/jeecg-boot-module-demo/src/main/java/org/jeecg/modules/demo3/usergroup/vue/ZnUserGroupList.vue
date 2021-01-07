@@ -6,28 +6,28 @@
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="用户id">
-              <a-input placeholder="请输入用户id" v-model="queryParam.userId"></a-input>
+              <j-dict-select-tag placeholder="请选择用户id" v-model="queryParam.userId" dictCode="sys_user,realname,id"/>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="任务分组id">
-              <a-input placeholder="请输入任务分组id" v-model="queryParam.groupId"></a-input>
+            <a-form-item label="用户账号">
+              <j-dict-select-tag placeholder="请选择用户账号" v-model="queryParam.userCode" dictCode="sys_user,realname,username"/>
             </a-form-item>
           </a-col>
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="任务分组名称">
-                <a-input placeholder="请输入任务分组名称" v-model="queryParam.groupName"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="用户账号">
-                <a-input placeholder="请输入用户账号" v-model="queryParam.userCode"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="用户姓名">
                 <a-input placeholder="请输入用户姓名" v-model="queryParam.userName"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="任务分组id">
+                <j-dict-select-tag placeholder="请选择任务分组id" v-model="queryParam.groupId" dictCode="zn_group_name,group_name,group_id"/>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="任务分组名称">
+                <a-input placeholder="请输入任务分组名称" v-model="queryParam.groupName"></a-input>
               </a-form-item>
             </a-col>
           </template>
@@ -136,12 +136,15 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import ZnUserGroupModal from './modules/ZnUserGroupModal'
+  import JDictSelectTag from '@/components/dict/JDictSelectTag.vue'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
   export default {
     name: 'ZnUserGroupList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
+      JDictSelectTag,
       ZnUserGroupModal,
       JSuperQuery,
     },
@@ -161,29 +164,19 @@
             }
           },
           {
-            title:'用户id',
-            align:"center",
-            dataIndex: 'userId'
-          },
-          {
-            title:'任务分组id',
-            align:"center",
-            dataIndex: 'groupId'
-          },
-          {
-            title:'任务分组名称',
-            align:"center",
-            dataIndex: 'groupName'
-          },
-          {
             title:'用户账号',
             align:"center",
-            dataIndex: 'userCode'
+            dataIndex: 'userCode_dictText'
           },
           {
             title:'用户姓名',
             align:"center",
             dataIndex: 'userName'
+          },
+          {
+            title:'任务分组名称',
+            align:"center",
+            dataIndex: 'groupName'
           },
           {
             title: '操作',
@@ -219,11 +212,11 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'userId',text:'用户id',dictCode:''})
-        fieldList.push({type:'int',value:'groupId',text:'任务分组id',dictCode:''})
-        fieldList.push({type:'string',value:'groupName',text:'任务分组名称',dictCode:''})
-        fieldList.push({type:'string',value:'userCode',text:'用户账号',dictCode:''})
+        fieldList.push({type:'string',value:'userId',text:'用户id',dictCode:'sys_user,realname,id'})
+        fieldList.push({type:'string',value:'userCode',text:'用户账号',dictCode:'sys_user,realname,username'})
         fieldList.push({type:'string',value:'userName',text:'用户姓名',dictCode:''})
+        fieldList.push({type:'int',value:'groupId',text:'任务分组id',dictCode:'zn_group_name,group_name,group_id'})
+        fieldList.push({type:'string',value:'groupName',text:'任务分组名称',dictCode:''})
         this.superFieldList = fieldList
       }
     }
