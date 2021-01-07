@@ -7,12 +7,12 @@
     font-family: cursive;
     border: 1px solid rgb(119, 119, 119);">{{char}}</div>
   <input style="margin-top: 20px;margin-left:39%;border: 1px solid rgb(119, 119, 119);    height: 30px;
-    width: 200px;" id="testInput" type="text" placeholder="请输入" @keyup="textchange($event)">
+    width: 220px;" id="testInput" type="text" placeholder="请输入" @keyup="textchange($event)" v-model="inputVal">
    <span style="margin-left:10px;"><a-icon type="close-circle" :style="{ fontSize: '23px' }"v-if="errorStatus"/>
     <a-icon type="check-circle" :style="{ fontSize: '23px' }" theme="twoTone" two-tone-color="#52c41a" v-if="successStatus"/></span>
     <div style="margin-left: 39%;margin-top: 20px"> <a-button type="primary" @click="submit" :disabled="submitStatus">提交</a-button>
-    <a-button style="margin-left: 10%" type="primary" @click="feedback" @feebackResult="feedbackResult()"> 反馈</a-button></div>
-    <feeback-form ref="modalForm" @ok="modalFormOk" :wordInfo="wordInfo"></feeback-form>
+    <a-button style="margin-left: 10%" type="primary" @click="feedback" > 反馈</a-button></div>
+    <feeback-form ref="modalForm" @ok="modalFormOk" :wordInfo="wordInfo" @feebackResult="feedbackResult()"></feeback-form>
   </a-card>
 
 
@@ -31,7 +31,6 @@
   import { getAction, putAction } from '../../api/manage'
   import debounce from 'lodash/debounce'
   // Vue.use(Element)
-  var char = "王";
   export default {
     name: 'TestWords',
     mixins:[JeecgListMixin, mixinDevice],
@@ -57,22 +56,11 @@
             }
           }
         ],
-        url: {
-          list: "/words/znWords/list",
-          delete: "/words/znWords/delete",
-          deleteBatch: "/words/znWords/deleteBatch",
-          exportXlsUrl: "/words/znWords/exportXls",
-          importExcelUrl: "words/znWords/importExcel",
-          
-        },
         dictOptions:{},
         superFieldList:[],
         inputVal:"",
         code:"",
         char:"",
-        ModalText: 'Content of the modal',
-        visible: false,
-        confirmLoading: false,
         englishInput:"",
         chineseInput:"",
         wordInfo:"",
@@ -121,7 +109,9 @@
         }
         console.log( this.englishInput)
         console.log( this.chineseInput)
-        if (this.englishInput === this.code  && this.chineseInput === this.char) {
+        var codeArray = this.code.split(",");
+
+        if (codeArray.indexOf(this.englishInput) != -1  && this.chineseInput === this.char) {
           $('#result').val('right');
           console.log('ok!');
           this.errorStatus = false;
@@ -139,9 +129,19 @@
         userWord.ifChecked = 1;
         userWord.ifPassed = 1;
         userWord.input = this.englishInput;
+        var that = this;
         putAction(`/words/znUserWords/edit`,userWord).then(res=>{
           if(res.success){
-            location.reload();
+            this.loadData()
+            this.inputVal = ''
+            this.code = ''
+            this.char = ''
+            this.englishInput = ''
+            this.chineseInput = ''
+            this.wordInfo = ''
+            this.errorStatus = false
+            this.successStatus = false
+            this.submitStatus = true
           }
         })
       },
@@ -151,28 +151,18 @@
         // this.visible = true;
         this.$refs['modalForm'].show(record)
       },
-      handleOk(e){
-        e.preventDefault();
-        this.form.validateFields((err, values) => {
-          console.log(err);
-          if (!err) {
-            console.log('Received values of form: ', values);
-          }else{
-            this.confirmLoading = true;
-            setTimeout(() => {
-              this.visible = false;
-              this.confirmLoading = false;
-            }, 2000);
-          }
-        });
 
-
-      },
-      handleCancel(){
-        this.visible = false;
-      },
       feedbackResult(){
-        location.reload();
+        this.loadData()
+        this.inputVal = ''
+        this.code = ''
+        this.char = ''
+        this.englishInput = ''
+        this.chineseInput = ''
+        this.wordInfo = ''
+        this.errorStatus = false
+        this.successStatus = false
+        this.submitStatus = true
       }
 
     }

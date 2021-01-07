@@ -191,7 +191,7 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
 		 LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 		 List<ZnUserWords> wordList = znUserWordsService.queryByUserId(sysUser.getId());
 		 if(wordList.size() <= 0) {
-			 return Result.error("未找到对应数据");
+			 return Result.error("该用户没有测试数据");
 		 }
 		 ZnUserWords userWords = wordList.get(0);
 		 ZnWords znWords = znWordsService.getById(userWords.getWordsId());

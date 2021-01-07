@@ -31,14 +31,22 @@
     </a-form-model-item>
 
     <a-form-model-item label="类型" prop="type">
-      <a-checkbox-group v-model="form.type">
-        <a-checkbox value="1" name="type">
-          全拼写
-        </a-checkbox>
-        <a-checkbox value="2" name="type">
-          简拼写
-        </a-checkbox>
-      </a-checkbox-group>
+<!--      <a-checkbox-group v-model="form.type">-->
+<!--        <a-checkbox value="1" name="type">-->
+<!--          全拼写-->
+<!--        </a-checkbox>-->
+<!--        <a-checkbox value="2" name="type">-->
+<!--          简拼写-->
+<!--        </a-checkbox>-->
+<!--      </a-checkbox-group>-->
+      <a-radio-group v-model="form.type">
+        <a-radio value="1">
+          全码
+        </a-radio>
+        <a-radio value="2">
+          简码
+        </a-radio>
+      </a-radio-group>
     </a-form-model-item>
     <a-form-model-item label="备注" prop="desc">
       <a-input v-model="form.desc" type="textarea" />
@@ -72,7 +80,6 @@
           ],
           type: [
             {
-              type: 'array',
               required: true,
               message: '请选择类型',
               trigger: 'change',
@@ -114,12 +121,12 @@
             var userWord = this.wordInfo.userWord;
             userWord.ifChecked = 1;
             userWord.ifPassed = 0;
-            userWord.feedback_type = this.form.type;
-            userWord.feedback_remark = this.form.desc;
+            userWord.feedbackType = this.form.type;
+            userWord.feedbackRemark = this.form.desc;
             putAction(`/words/znUserWords/edit`,userWord).then(res=>{
               if(res.success){
-                this.close();
                 this.$emit('feebackResult',true);
+                this.close();
               }
             })
           } else {
