@@ -16,15 +16,18 @@
     :label-col="labelCol"
     :wrapper-col="wrapperCol"
   >
-    <a-form-model-item ref="name" label="Activity name" prop="name">
-      <a-input
-        v-model="form.name"
-        @blur="
-          () => {
-            $refs.name.onFieldBlur();
-          }
-        "
-      />
+    <a-form-model-item ref="name" label="字" prop="name">
+<!--      <a-input-->
+<!--        v-model="form.name"-->
+<!--        @blur="-->
+<!--          () => {-->
+<!--            $refs.name.onFieldBlur();-->
+<!--          }-->
+<!--        "-->
+<!--      />-->
+      <span>
+        {{wordInfo.word.words}}
+      </span>
     </a-form-model-item>
 
     <a-form-model-item label="类型" prop="type">
@@ -52,18 +55,20 @@
   </a-drawer>
 </template>
 <script>
+  import { putAction } from '../../../api/manage'
+
   export default {
     data() {
       return {
-        visible: false,
         form: this.getRouter(),
+        visible: false,
         title: '反馈信息',
         labelCol: { span: 4 },
         wrapperCol: { span: 14 },
         other: '',
         rules: {
           name: [
-            { required: true, message: 'Please input Activity name', trigger: 'blur' },
+            { required: false },
           ],
           type: [
             {
@@ -77,6 +82,7 @@
         },
       };
     },
+    props:['wordInfo'],
     methods: {
       getRouter() {
         return {
@@ -105,6 +111,17 @@
         this.$refs.ruleForm.validate(valid => {
           if (valid) {
             alert('submit!');
+            var userWord = this.wordInfo.userWord;
+            userWord.ifChecked = 1;
+            userWord.ifPassed = 0;
+            userWord.feedback_type = this.form.type;
+            userWord.feedback_remark = this.form.desc;
+            putAction(`/words/znUserWords/edit`,userWord).then(res=>{
+              if(res.success){
+                this.close();
+                this.$emit('feebackResult',true);
+              }
+            })
           } else {
             console.log('error submit!!');
             return false;

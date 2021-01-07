@@ -5,34 +5,14 @@
     font-size: 70px;
     text-align: center;
     font-family: cursive;
-    border: 1px solid rgb(119, 119, 119);">王</div>
+    border: 1px solid rgb(119, 119, 119);">{{char}}</div>
   <input style="margin-top: 20px;margin-left:39%;border: 1px solid rgb(119, 119, 119);    height: 30px;
     width: 200px;" id="testInput" type="text" placeholder="请输入" @keyup="textchange($event)">
-   <div style="margin-left: 39%;margin-top: 20px"> <a-button type="primary" @click="submit">提交</a-button>
-    <a-button style="margin-left: 10%" type="primary" @click="feedback"> 反馈</a-button></div>
-<!--    <a-modal title="反馈"-->
-<!--             :visible="visible"-->
-<!--             :confirm-loading="confirmLoading"-->
-<!--             @ok="handleOk"-->
-<!--             @cancel="handleCancel">-->
-<!--    <a-form :form="form">-->
-
-<!--      <a-form-model-item label="type" prop="type" v-decorator="['type', { rules: [{ required: true, message: '请选择类型!' }] }]">-->
-<!--        <a-checkbox-group >-->
-<!--          <a-checkbox value="1" name="type">-->
-<!--            全笔画-->
-<!--          </a-checkbox>-->
-<!--          <a-checkbox value="2" name="type">-->
-<!--            简画-->
-<!--          </a-checkbox>-->
-<!--        </a-checkbox-group>-->
-<!--      </a-form-model-item>-->
-<!--      <a-form-model-item has-feedback label="备注" prop="remark">-->
-<!--        <a-input  autocomplete="off" />-->
-<!--      </a-form-model-item>-->
-<!--    </a-form>-->
-<!--    </a-modal>-->
-    <feeback-form ref="modalForm" @ok="modalFormOk"></feeback-form>
+   <span style="margin-left:10px;"><a-icon type="close-circle" :style="{ fontSize: '23px' }"v-if="errorStatus"/>
+    <a-icon type="check-circle" :style="{ fontSize: '23px' }" theme="twoTone" two-tone-color="#52c41a" v-if="successStatus"/></span>
+    <div style="margin-left: 39%;margin-top: 20px"> <a-button type="primary" @click="submit" :disabled="submitStatus">提交</a-button>
+    <a-button style="margin-left: 10%" type="primary" @click="feedback" @feebackResult="feedbackResult()"> 反馈</a-button></div>
+    <feeback-form ref="modalForm" @ok="modalFormOk" :wordInfo="wordInfo"></feeback-form>
   </a-card>
 
 
@@ -48,6 +28,8 @@
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
   import Vue from 'vue' 
   import $ from 'jquery'
+  import { getAction, putAction } from '../../api/manage'
+  import debounce from 'lodash/debounce'
   // Vue.use(Element)
   var char = "王";
   export default {
@@ -57,6 +39,8 @@
       FeebackForm,
     },
     data () {
+      submitStatus: true;
+      this.loadData = debounce(this.loadData, 800);//消抖
       return {
         form: this.$form.createForm(this, { name: 'coordinated' }),
         description: '汉字对照表管理页面',
@@ -84,13 +68,17 @@
         dictOptions:{},
         superFieldList:[],
         inputVal:"",
-        code:"yyuy",
-        char:"王",
+        code:"",
+        char:"",
         ModalText: 'Content of the modal',
         visible: false,
         confirmLoading: false,
         englishInput:"",
-        chineseInput:""
+        chineseInput:"",
+        wordInfo:"",
+        errorStatus: false,
+        successStatus: false,
+        submitStatus: true
       }
     },
     created() {
@@ -109,6 +97,19 @@
       init(){
 		    
 	    },
+      loadData(){
+        getAction(`/words/znUserWords/queryWord`).then(res=>{
+          if(res.success){
+            this.code = res.result.word.keyboardSequence;
+            this.char = res.result.word.words;
+            this.wordInfo = res.result;
+          }else{
+            this.$message.warning(res.message)
+          }
+
+        })
+
+      },
       textchange() {
 
         var temp = $('#testInput').val()
@@ -121,15 +122,31 @@
         console.log( this.englishInput)
         console.log( this.chineseInput)
         if (this.englishInput === this.code  && this.chineseInput === this.char) {
-          $('#result').val('right')
-          console.log('ok!')
+          $('#result').val('right');
+          console.log('ok!');
+          this.errorStatus = false;
+          this.successStatus = true;
+          this.submitStatus = false;
+        }else{
+          this.errorStatus = true;
+          this.successStatus = false;
+          this.submitStatus = true;
         }
 
       },
       submit(){
-
+        var userWord = this.wordInfo.userWord;
+        userWord.ifChecked = 1;
+        userWord.ifPassed = 1;
+        userWord.input = this.englishInput;
+        putAction(`/words/znUserWords/edit`,userWord).then(res=>{
+          if(res.success){
+            location.reload();
+          }
+        })
       },
       feedback(record){
+        // record.formValue.
         console.log('Clicked cancel button');
         // this.visible = true;
         this.$refs['modalForm'].show(record)
@@ -153,7 +170,11 @@
       },
       handleCancel(){
         this.visible = false;
+      },
+      feedbackResult(){
+        location.reload();
       }
+
     }
     
   }
