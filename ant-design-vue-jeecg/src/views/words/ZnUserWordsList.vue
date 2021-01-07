@@ -64,7 +64,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('wrong_words')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('用户汉字完成表')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -141,7 +141,7 @@
       </a-table>
     </div>
 
-    <wrong-words-modal ref="modalForm" @ok="modalFormOk"></wrong-words-modal>
+    <zn-user-words-modal ref="modalForm" @ok="modalFormOk"></zn-user-words-modal>
   </a-card>
 </template>
 
@@ -150,19 +150,19 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import WrongWordsModal from './modules/WrongWordsModal'
+  import ZnUserWordsModal from './modules/ZnUserWordsModal'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
   export default {
-    name: 'WrongWordsList',
+    name: 'ZnUserWordsList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      WrongWordsModal,
+      ZnUserWordsModal,
       JSuperQuery,
     },
     data () {
       return {
-        description: 'wrong_words管理页面',
+        description: '用户汉字完成表管理页面',
         // 表头
         columns: [
           {
@@ -225,11 +225,11 @@
           }
         ],
         url: {
-          list: "/wrongwords/wrongWords/list",
-          delete: "/wrongwords/wrongWords/delete",
-          deleteBatch: "/wrongwords/wrongWords/deleteBatch",
-          exportXlsUrl: "/wrongwords/wrongWords/exportXls",
-          importExcelUrl: "wrongwords/wrongWords/importExcel",
+          list: "/words/znUserWords/list",
+          delete: "/words/znUserWords/delete",
+          deleteBatch: "/words/znUserWords/deleteBatch",
+          exportXlsUrl: "/words/znUserWords/exportXls",
+          importExcelUrl: "words/znUserWords/importExcel",
           
         },
         dictOptions:{},

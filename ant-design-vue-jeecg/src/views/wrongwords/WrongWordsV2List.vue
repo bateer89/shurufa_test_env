@@ -4,58 +4,6 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
-          <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="用户id">
-              <a-input placeholder="请输入用户id" v-model="queryParam.userId"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="汉字id">
-              <a-input placeholder="请输入汉字id" v-model="queryParam.wordsId"></a-input>
-            </a-form-item>
-          </a-col>
-          <template v-if="toggleSearchStatus">
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="分组id">
-                <a-input placeholder="请输入分组id" v-model="queryParam.groupId"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="是否检查过">
-                <a-input placeholder="请输入是否检查过" v-model="queryParam.ifChecked"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="是否通过">
-                <a-input placeholder="请输入是否通过" v-model="queryParam.ifPassed"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="成功的输入">
-                <a-input placeholder="请输入成功的输入" v-model="queryParam.input"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="反馈类型">
-                <a-input placeholder="请输入反馈类型" v-model="queryParam.feedbackType"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="反馈备注">
-                <a-input placeholder="请输入反馈备注" v-model="queryParam.feedbackRemark"></a-input>
-              </a-form-item>
-            </a-col>
-          </template>
-          <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-              <a @click="handleToggleSearch" style="margin-left: 8px">
-                {{ toggleSearchStatus ? '收起' : '展开' }}
-                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-              </a>
-            </span>
-          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -64,7 +12,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('wrong_words')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('wrong_words_v2')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -141,7 +89,7 @@
       </a-table>
     </div>
 
-    <wrong-words-modal ref="modalForm" @ok="modalFormOk"></wrong-words-modal>
+    <wrong-words-v2-modal ref="modalForm" @ok="modalFormOk"></wrong-words-v2-modal>
   </a-card>
 </template>
 
@@ -150,19 +98,19 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import WrongWordsModal from './modules/WrongWordsModal'
+  import WrongWordsV2Modal from './modules/WrongWordsV2Modal'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
   export default {
-    name: 'WrongWordsList',
+    name: 'WrongWordsV2List',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      WrongWordsModal,
+      WrongWordsV2Modal,
       JSuperQuery,
     },
     data () {
       return {
-        description: 'wrong_words管理页面',
+        description: 'wrong_words_v2管理页面',
         // 表头
         columns: [
           {
@@ -176,44 +124,58 @@
             }
           },
           {
-            title:'用户id',
+            title:'登录账号',
             align:"center",
-            dataIndex: 'userId'
+            sorter: true,
+            dataIndex: 'username'
+          },
+          {
+            title:'汉字',
+            align:"center",
+            sorter: true,
+            dataIndex: 'words'
           },
           {
             title:'汉字id',
             align:"center",
+            sorter: true,
             dataIndex: 'wordsId'
-          },
-          {
-            title:'分组id',
-            align:"center",
-            dataIndex: 'groupId'
-          },
-          {
-            title:'是否检查过',
-            align:"center",
-            dataIndex: 'ifChecked'
-          },
-          {
-            title:'是否通过',
-            align:"center",
-            dataIndex: 'ifPassed'
           },
           {
             title:'成功的输入',
             align:"center",
+            sorter: true,
             dataIndex: 'input'
           },
           {
             title:'反馈类型',
             align:"center",
+            sorter: true,
             dataIndex: 'feedbackType'
           },
           {
             title:'反馈备注',
             align:"center",
+            sorter: true,
             dataIndex: 'feedbackRemark'
+          },
+          {
+            title:'是否通过',
+            align:"center",
+            sorter: true,
+            dataIndex: 'ifPassed'
+          },
+          {
+            title:'用户id',
+            align:"center",
+            sorter: true,
+            dataIndex: 'userId'
+          },
+          {
+            title:'是否检查过',
+            align:"center",
+            sorter: true,
+            dataIndex: 'ifChecked'
           },
           {
             title: '操作',
@@ -225,11 +187,11 @@
           }
         ],
         url: {
-          list: "/wrongwords/wrongWords/list",
-          delete: "/wrongwords/wrongWords/delete",
-          deleteBatch: "/wrongwords/wrongWords/deleteBatch",
-          exportXlsUrl: "/wrongwords/wrongWords/exportXls",
-          importExcelUrl: "wrongwords/wrongWords/importExcel",
+          list: "/wrongwords/wrongWordsV2/list",
+          delete: "/wrongwords/wrongWordsV2/delete",
+          deleteBatch: "/wrongwords/wrongWordsV2/deleteBatch",
+          exportXlsUrl: "/wrongwords/wrongWordsV2/exportXls",
+          importExcelUrl: "wrongwords/wrongWordsV2/importExcel",
           
         },
         dictOptions:{},
@@ -249,14 +211,15 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'userId',text:'用户id',dictCode:''})
+        fieldList.push({type:'string',value:'username',text:'登录账号',dictCode:''})
+        fieldList.push({type:'string',value:'words',text:'汉字',dictCode:''})
         fieldList.push({type:'int',value:'wordsId',text:'汉字id',dictCode:''})
-        fieldList.push({type:'int',value:'groupId',text:'分组id',dictCode:''})
-        fieldList.push({type:'int',value:'ifChecked',text:'是否检查过',dictCode:''})
-        fieldList.push({type:'int',value:'ifPassed',text:'是否通过',dictCode:''})
         fieldList.push({type:'string',value:'input',text:'成功的输入',dictCode:''})
         fieldList.push({type:'int',value:'feedbackType',text:'反馈类型',dictCode:''})
         fieldList.push({type:'string',value:'feedbackRemark',text:'反馈备注',dictCode:''})
+        fieldList.push({type:'int',value:'ifPassed',text:'是否通过',dictCode:''})
+        fieldList.push({type:'string',value:'userId',text:'用户id',dictCode:''})
+        fieldList.push({type:'int',value:'ifChecked',text:'是否检查过',dictCode:''})
         this.superFieldList = fieldList
       }
     }
