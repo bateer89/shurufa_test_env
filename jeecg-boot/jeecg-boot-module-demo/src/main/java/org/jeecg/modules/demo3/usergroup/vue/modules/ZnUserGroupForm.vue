@@ -5,27 +5,12 @@
         <a-row>
           <a-col :span="24">
             <a-form-item label="用户id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['userId']" placeholder="请输入用户id"  ></a-input>
+              <j-dict-select-tag type="list" v-decorator="['userId', validatorRules.userId]" :trigger-change="true" dictCode="sys_user,realname,id" placeholder="请选择用户id" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="任务分组id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['groupId']" placeholder="请输入任务分组id" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="任务分组名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['groupName']" placeholder="请输入任务分组名称"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="用户账号" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['userCode']" placeholder="请输入用户账号"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="用户姓名" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['userName']" placeholder="请输入用户姓名"  ></a-input>
+              <j-dict-select-tag type="list" v-decorator="['groupId', validatorRules.groupId]" :trigger-change="true" dictCode="zn_group_name,group_name,group_id" placeholder="请选择任务分组id" />
             </a-form-item>
           </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">
@@ -43,11 +28,13 @@
   import pick from 'lodash.pick'
   import { validateDuplicateValue } from '@/utils/util'
   import JFormContainer from '@/components/jeecg/JFormContainer'
+  import JDictSelectTag from "@/components/dict/JDictSelectTag"
 
   export default {
     name: 'ZnUserGroupForm',
     components: {
       JFormContainer,
+      JDictSelectTag,
     },
     props: {
       //流程表单data
@@ -83,6 +70,16 @@
         },
         confirmLoading: false,
         validatorRules: {
+          userId: {
+            rules: [
+              { required: true, message: '请输入用户id!'},
+            ]
+          },
+          groupId: {
+            rules: [
+              { required: true, message: '请输入任务分组id!'},
+            ]
+          },
         },
         url: {
           add: "/usergroup/znUserGroup/add",
@@ -123,7 +120,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'userId','groupId','groupName','userCode','userName'))
+          this.form.setFieldsValue(pick(this.model,'userId','userCode','userName','groupId','groupName'))
         })
       },
       //渲染流程表单数据
@@ -169,7 +166,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'userId','groupId','groupName','userCode','userName'))
+        this.form.setFieldsValue(pick(row,'userId','userCode','userName','groupId','groupName'))
       },
     }
   }
