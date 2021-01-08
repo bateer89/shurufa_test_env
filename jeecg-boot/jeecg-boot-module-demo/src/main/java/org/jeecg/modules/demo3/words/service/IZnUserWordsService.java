@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface IZnUserWordsService extends IService<ZnUserWords> {
 
-    public List<ZnUserWords> queryByUserId(String userId);
+    public List<ZnUserWords> queryByUserId(String userId);  
 }
