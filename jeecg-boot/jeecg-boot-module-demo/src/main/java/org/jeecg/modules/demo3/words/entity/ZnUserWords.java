@@ -62,6 +62,14 @@ public class ZnUserWords implements Serializable {
 	@Excel(name = "汉字id", width = 15)
     @ApiModelProperty(value = "汉字id")
     private java.lang.Integer wordsId;
+	/**全码键盘序*/
+	@Excel(name = "全码键盘序", width = 15)
+    @ApiModelProperty(value = "全码键盘序")
+    private java.lang.String sequenceQ;
+	/**简码键盘序*/
+	@Excel(name = "简码键盘序", width = 15)
+    @ApiModelProperty(value = "简码键盘序")
+    private java.lang.String sequenceJ;
 	/**分组id*/
 	@Excel(name = "分组id", width = 15)
     @ApiModelProperty(value = "分组id")
@@ -78,6 +86,10 @@ public class ZnUserWords implements Serializable {
 	@Excel(name = "成功的输入", width = 15)
     @ApiModelProperty(value = "成功的输入")
     private java.lang.String input;
+	/**成功的输入*/
+	@Excel(name = "成功的输入", width = 15)
+    @ApiModelProperty(value = "成功的输入")
+    private java.lang.String inputJ;
 	/**反馈类型*/
 	@Excel(name = "反馈类型", width = 15)
     @ApiModelProperty(value = "反馈类型")

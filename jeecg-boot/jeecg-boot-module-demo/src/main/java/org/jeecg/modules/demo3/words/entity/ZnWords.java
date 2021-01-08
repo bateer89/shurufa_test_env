@@ -62,6 +62,34 @@ public class ZnWords implements Serializable {
 	@Excel(name = "键盘序", width = 15)
     @ApiModelProperty(value = "键盘序")
     private java.lang.String keyboardSequence;
+	/**键盘序*/
+	@Excel(name = "键盘序", width = 15)
+    @ApiModelProperty(value = "键盘序")
+    private java.lang.String keyboard_simple_sequence1;
+	/**键盘序*/
+	@Excel(name = "键盘序", width = 15)
+    @ApiModelProperty(value = "键盘序")
+    private java.lang.String keyboard_simple_sequence2;
+	/**键盘序*/
+	@Excel(name = "键盘序", width = 15)
+    @ApiModelProperty(value = "键盘序")
+    private java.lang.String keyboard_simple_sequence3;
+	/**全码笔画*/
+	@Excel(name = "全码笔画", width = 15)
+    @ApiModelProperty(value = "全码笔画")
+    private java.lang.String all_strokes;
+	/**简码笔画*/
+	@Excel(name = "简码笔画", width = 15)
+    @ApiModelProperty(value = "简码笔画")
+    private java.lang.String simple_strokes1;
+	/**简码笔画*/
+	@Excel(name = "简码笔画", width = 15)
+    @ApiModelProperty(value = "简码笔画")
+    private java.lang.String simple_strokes2;
+	/**简码笔画*/
+	@Excel(name = "简码笔画", width = 15)
+    @ApiModelProperty(value = "简码笔画")
+    private java.lang.String simple_strokes3;
 	/**code1*/
 	@Excel(name = "code1", width = 15)
     @ApiModelProperty(value = "code1")

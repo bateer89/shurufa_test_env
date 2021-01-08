@@ -14,6 +14,9 @@
 		<result column="if_checked" property="ifChecked" jdbcType="VARCHAR"/>
 		<result column="if_passed" property="ifPassed" jdbcType="VARCHAR"/>
 		<result column="input" property="input" jdbcType="VARCHAR"/>
+		<result column="input_j" property="inputJ" jdbcType="VARCHAR"/>
+		<result column="sequence_q" property="sequenceQ" jdbcType="VARCHAR"/>
+		<result column="sequence_j" property="sequenceJ" jdbcType="VARCHAR"/>
 		<result column="feedback_type" property="feedbackType" jdbcType="VARCHAR"/>
 		<result column="feedback_remark" property="feedbackRemark" jdbcType="VARCHAR"/>
 	</resultMap>
