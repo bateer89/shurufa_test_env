@@ -8,12 +8,12 @@
     border: 1px solid rgb(119, 119, 119);">{{char}}
     </div>
     <a-form :form="form" :wrapper-col="{ span: 12, offset: 5 }" style="margin-top:10px">
-      <a-form-item v-model="fullInput" label="全码" prop="full" has-feedback :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" >
-        <a-input @keyup="fullChange($event)"
+      <a-form-item  label="全码" prop="full" has-feedback :label-col="{ span: 7 }" :wrapper-col="{ span: 8 }" >
+        <a-input @keyup="fullChange($event)" v-model="fullInput"
                  v-decorator="['full',validatorRules.full]"></a-input>
       </a-form-item>
-      <a-form-item   :wrapper-col="{ span: 8, offset: 5 }" v-model="shortInput" v-if="this.shortCode!=='' && this.shortCode!== undefined && this.shortCode!== null " label="简码" prop="short" has-feedback>
-        <a-input @keyup="shortChange($event)" v-decorator="['full',validatorRules.short]"></a-input>
+      <a-form-item   :label-col="{ span: 7 }" :wrapper-col="{ span: 8 }"  v-if="this.shortCode!=='' && this.shortCode!== undefined && this.shortCode!== null " label="简码" prop="short" has-feedback>
+        <a-input @keyup="shortChange($event)" v-decorator="['short',validatorRules.short]" v-model="shortInput"></a-input>
       </a-form-item>
     </a-form>
 <!--      <input style="margin-top: 20px;margin-left:39%;border: 1px solid rgb(119, 119, 119);    height: 30px;-->
@@ -147,7 +147,7 @@
         // }
 
       },
-      shortChange() {
+      shortChange(e) {
 
         var temp = e.target.value
         var pattern = new RegExp('[\u4E00-\u9FA5]+')
@@ -185,6 +185,7 @@
             userWord.inputJ = that.englishShortInput
             putAction(`/words/znUserWords/edit`, userWord).then(res => {
               if (res.success) {
+                that.form = that.$form.createForm(that);
                 that.loadData()
                 that.inputVal = ''
                 that.fullStatus = ''
@@ -214,6 +215,7 @@
       },
 
       feedbackResult() {
+        this.form = this.$form.createForm(this);
         this.loadData()
         this.inputVal = ''
         this.fullStatus = ''
@@ -257,11 +259,12 @@
             callback(new Error('请输入简码'))
           } else {
             var codeArray = this.shortCode.split(',')
+            console.log(codeArray)
             if (codeArray.indexOf(this.englishShortInput) != -1 && value === this.char) {
-              callback(new Error('输入与全码不匹配'));
-              this.$refs.ruleForm.validateField('checkPass')
-            }else{
               callback()
+            }else{
+              callback(new Error('输入与简码不匹配'));
+              this.$refs.ruleForm.validateField('checkPass')
             }
           }
         }else{

@@ -117,7 +117,7 @@
       onSubmit() {
         this.$refs.ruleForm.validate(valid => {
           if (valid) {
-            alert('submit!');
+            // alert('submit!');
             var userWord = this.wordInfo.userWord;
             userWord.ifChecked = 1;
             userWord.ifPassed = 0;
