@@ -53,10 +53,10 @@
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
       <a-button type="primary" @click="onSubmit">
-        Create
+        确认
       </a-button>
       <a-button style="margin-left: 10px;" @click="resetForm">
-        Reset
+        重置
       </a-button>
     </a-form-model-item>
   </a-form-model>

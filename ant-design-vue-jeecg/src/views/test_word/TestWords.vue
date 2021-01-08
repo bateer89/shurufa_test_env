@@ -1,22 +1,31 @@
 <template>
   <a-card :bordered="false" style="align-content: center">
-  <div style="   margin-left:42%; width: 100px;
+    <div style="   margin-left:42%; width: 100px;
     height: 100px;
     font-size: 70px;
     text-align: center;
     font-family: cursive;
-    border: 1px solid rgb(119, 119, 119);">{{char}}</div>
-  <input style="margin-top: 20px;margin-left:39%;border: 1px solid rgb(119, 119, 119);    height: 30px;
-    width: 220px;" id="testInput" type="text" placeholder="请输入" @keyup="textchange($event)" v-model="inputVal">
-   <span style="margin-left:10px;"><a-icon type="close-circle" :style="{ fontSize: '23px' }"v-if="errorStatus"/>
-    <a-icon type="check-circle" :style="{ fontSize: '23px' }" theme="twoTone" two-tone-color="#52c41a" v-if="successStatus"/></span>
-    <div style="margin-left: 39%;margin-top: 20px"> <a-button type="primary" @click="submit" :disabled="submitStatus">提交</a-button>
-    <a-button style="margin-left: 10%" type="primary" @click="feedback" > 反馈</a-button></div>
-    <feeback-form ref="modalForm" @ok="modalFormOk" :wordInfo="wordInfo" @feebackResult="feedbackResult()"></feeback-form>
+    border: 1px solid rgb(119, 119, 119);">{{char}}
+    </div>
+    <a-form :form="form" :wrapper-col="{ span: 12, offset: 5 }" style="margin-top:10px">
+      <a-form-item v-model="fullInput" label="全码" prop="full" has-feedback :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" >
+        <a-input @keyup="fullChange($event)"
+                 v-decorator="['full',validatorRules.full]"></a-input>
+      </a-form-item>
+      <a-form-item   :wrapper-col="{ span: 8, offset: 5 }" v-model="shortInput" v-if="this.shortCode!=='' && this.shortCode!== undefined && this.shortCode!== null " label="简码" prop="short" has-feedback>
+        <a-input @keyup="shortChange($event)" v-decorator="['full',validatorRules.short]"></a-input>
+      </a-form-item>
+    </a-form>
+<!--      <input style="margin-top: 20px;margin-left:39%;border: 1px solid rgb(119, 119, 119);    height: 30px;-->
+<!--        width: 220px;" id="testInput" type="text" placeholder="请输入" @keyup="textchange($event)" v-model="inputVal">-->
+<!--       <span style="margin-left:10px;"><a-icon type="close-circle" :style="{ fontSize: '23px' }"v-if="errorStatus"/>-->
+<!--        <a-icon type="check-circle" :style="{ fontSize: '23px' }" theme="twoTone" two-tone-color="#52c41a" v-if="successStatus"/></span>-->
+        <div style="margin-left: 39%;margin-top: 20px"> <a-button type="primary" @click="submit" >提交</a-button>
+        <a-button style="margin-left: 10%" type="primary" @click="feedback" > 反馈</a-button>
+        </div>
+    <feeback-form ref="modalForm" @ok="modalFormOk" :wordInfo="wordInfo"
+                  @feebackResult="feedbackResult()"></feeback-form>
   </a-card>
-
-
-
 </template>
 
 <script>
@@ -26,55 +35,66 @@
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import FeebackForm from './modules/FeebackForm'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
-  import Vue from 'vue' 
+  import Vue from 'vue'
   import $ from 'jquery'
   import { getAction, putAction } from '../../api/manage'
   import debounce from 'lodash/debounce'
   // Vue.use(Element)
   export default {
     name: 'TestWords',
-    mixins:[JeecgListMixin, mixinDevice],
+    mixins: [JeecgListMixin, mixinDevice],
     components: {
-      FeebackForm,
+      FeebackForm
     },
-    data () {
-      submitStatus: true;
-      this.loadData = debounce(this.loadData, 800);//消抖
+    data() {
+
+      this.loadData = debounce(this.loadData, 800)//消抖
       return {
-        form: this.$form.createForm(this, { name: 'coordinated' }),
+        form: this.$form.createForm(this),
         description: '汉字对照表管理页面',
         // 表头
         columns: [
           {
             title: '#',
             dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
+            key: 'rowIndex',
+            width: 60,
+            align: 'center',
+            customRender: function(t, r, index) {
+              return parseInt(index) + 1
             }
           }
         ],
-        dictOptions:{},
-        superFieldList:[],
-        inputVal:"",
-        code:"",
-        char:"",
-        englishInput:"",
-        chineseInput:"",
-        wordInfo:"",
+        validatorRules: {
+          full: { rules: [{ validator: this.validateFull }] },
+          short:{ rules: [{ validator: this.validateShort}] }
+        },
+        dictOptions: {},
+        superFieldList: [],
+        inputVal: '',
+        fullStatus: '',
+        fullCode: '',
+        shortCode: '',
+        char: '',
+        fullInput:'',
+        shortInput:'',
+        englishFullInput: '',
+        englishShortInput: '',
+        chineseFullInput: '',
+        chineseShortInput: '',
+        wordInfo: '',
         errorStatus: false,
         successStatus: false,
         submitStatus: true
+
       }
     },
     created() {
-      $(function(){
-        $("#testId").val("");
-        $("#result").val("wrong");
-        $("#charResult").val("wrong");
-    });
+      $(function() {
+        $('#testId').val('')
+        $('#result').val('wrong')
+        $('#charResult').val('wrong')
+      })
     },
     computed: {
       // importExcelUrl: function(){
@@ -82,94 +102,175 @@
       // },
     },
     methods: {
-      init(){
-		    
-	    },
-      loadData(){
-        getAction(`/words/znUserWords/queryWord`).then(res=>{
-          if(res.success){
-            this.code = res.result.word.keyboardSequence;
-            this.char = res.result.word.words;
-            this.wordInfo = res.result;
-          }else{
+      init() {
+
+      },
+      loadData() {
+        getAction(`/words/znUserWords/queryWord`).then(res => {
+          if (res.success) {
+            this.fullCode = res.result.word.keyboardSequence
+            this.shortCode = res.result.word.keyboardSimpleSequence1
+            this.char = res.result.word.words
+            this.wordInfo = res.result
+          } else {
             this.$message.warning(res.message)
           }
 
         })
 
       },
-      textchange() {
 
-        var temp = $('#testInput').val()
-        var pattern = new RegExp("[\u4E00-\u9FA5]+");
+      fullChange(e) {
+        console.log(e)
+        console.log(e.target.value)
+        var temp = e.target.value
+        var pattern = new RegExp('[\u4E00-\u9FA5]+')
         if (pattern.test(temp)) {
-          this.chineseInput = $('#testInput').val()
+          this.chineseFullInput = temp
         } else {
-          this.englishInput = $('#testInput').val()
+          this.englishFullInput = temp
         }
-        console.log( this.englishInput)
-        console.log( this.chineseInput)
-        var codeArray = this.code.split(",");
-
-        if (codeArray.indexOf(this.englishInput) != -1  && this.chineseInput === this.char) {
-          $('#result').val('right');
-          console.log('ok!');
-          this.errorStatus = false;
-          this.successStatus = true;
-          this.submitStatus = false;
-        }else{
-          this.errorStatus = true;
-          this.successStatus = false;
-          this.submitStatus = true;
-        }
+        console.log(this.englishFullInput)
+        console.log(this.chineseFullInput)
+        // var codeArray = this.code.split(',')
+        //
+        // if (codeArray.indexOf(this.englishFullInput) != -1 && this.chineseFullInput === this.char) {
+        //   $('#result').val('right')
+        //   console.log('ok!')
+        //   this.errorStatus = false
+        //   this.successStatus = true
+        //   this.submitStatus = false
+        // } else {
+        //   this.errorStatus = true
+        //   this.successStatus = false
+        //   this.submitStatus = true
+        // }
 
       },
-      submit(){
-        var userWord = this.wordInfo.userWord;
-        userWord.ifChecked = 1;
-        userWord.ifPassed = 1;
-        userWord.input = this.englishInput;
-        var that = this;
-        putAction(`/words/znUserWords/edit`,userWord).then(res=>{
-          if(res.success){
-            this.loadData()
-            this.inputVal = ''
-            this.code = ''
-            this.char = ''
-            this.englishInput = ''
-            this.chineseInput = ''
-            this.wordInfo = ''
-            this.errorStatus = false
-            this.successStatus = false
-            this.submitStatus = true
+      shortChange() {
+
+        var temp = e.target.value
+        var pattern = new RegExp('[\u4E00-\u9FA5]+')
+        if (pattern.test(temp)) {
+          this.chineseShortInput = temp
+        } else {
+          this.englishShortInput = temp
+        }
+        console.log(this.englishShortInput)
+        console.log(this.chineseShortInput)
+        // var codeArray = this.code.split(',')
+        // if (codeArray.indexOf(this.englishShortInput) != -1 && this.chineseShortInput === this.char) {
+        //   $('#result').val('right')
+        //   console.log('ok!')
+        //   this.errorStatus = false
+        //   this.successStatus = true
+        //   this.submitStatus = false
+        // } else {
+        //   this.errorStatus = true
+        //   this.successStatus = false
+        //   this.submitStatus = true
+        // }
+
+      },
+      submit() {
+        console.log(this.shortCode)
+        const that = this;
+        // 触发表单验证
+        this.form.validateFields((err, values) => {
+          if (!err) {
+            var userWord = that.wordInfo.userWord
+            userWord.ifChecked = 1
+            userWord.ifPassed = 1
+            userWord.input = that.englishFullInput
+            userWord.inputJ = that.englishShortInput
+            putAction(`/words/znUserWords/edit`, userWord).then(res => {
+              if (res.success) {
+                that.loadData()
+                that.inputVal = ''
+                that.fullStatus = ''
+                that.fullCode = ''
+                that.shortCode = ''
+                that.char = ''
+                that.fullInput = ''
+                that.shortInput = ''
+                that.englishFullInput = ''
+                that.englishShortInput = ''
+                that.chineseFullInput = ''
+                that.chineseShortInput = ''
+                that.wordInfo = ''
+                that.errorStatus = false
+                that.successStatus = false
+                that.submitStatus = true
+              }
+            })
           }
         })
       },
-      feedback(record){
+      feedback(record) {
         // record.formValue.
-        console.log('Clicked cancel button');
+        console.log('Clicked cancel button')
         // this.visible = true;
         this.$refs['modalForm'].show(record)
       },
 
-      feedbackResult(){
+      feedbackResult() {
         this.loadData()
         this.inputVal = ''
-        this.code = ''
+        this.fullStatus = ''
+        this.fullCode = ''
+        this.shortCode = ''
         this.char = ''
-        this.englishInput = ''
-        this.chineseInput = ''
+        this.fullInput = ''
+        this.shortInput = ''
+        this.englishFullInput = ''
+        this.englishShortInput = ''
+        this.chineseFullInput = ''
+        this.chineseShortInput = ''
         this.wordInfo = ''
         this.errorStatus = false
         this.successStatus = false
         this.submitStatus = true
+      },
+      validateFull(rule, value, callback) {
+        if (value === '') {
+          callback(new Error('请输入全码'))
+        } else {
+          var codeArray = this.fullCode.split(',')
+          console.log(value)
+          console.log(codeArray.indexOf(this.englishFullInput) != -1 )
+          console.log(this.chineseFullInput)
+          console.log(this.char)
+          if (codeArray.indexOf(this.englishFullInput) != -1 && value === this.char) {
+            callback()
+          }else{
+            callback(new Error('输入与全码不匹配'));
+            this.$refs.ruleForm.validateField('checkPass')
+          }
+
+        }
+      },
+      validateShort(rule, value, callback) {
+        console.log(this.shortCode)
+        if (this.shortCode != undefined && this.shortCode != null && this.shortCode != '') {
+          console.log(value)
+          if (value === '') {
+            callback(new Error('请输入简码'))
+          } else {
+            var codeArray = this.shortCode.split(',')
+            if (codeArray.indexOf(this.englishShortInput) != -1 && value === this.char) {
+              callback(new Error('输入与全码不匹配'));
+              this.$refs.ruleForm.validateField('checkPass')
+            }else{
+              callback()
+            }
+          }
+        }else{
+          callback()
+        }
       }
 
     }
-    
+
   }
 
 </script>
-<style scoped>
-  @import '~@assets/less/common.less';
-</style>
