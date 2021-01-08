@@ -13,5 +13,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @Version: V1.0
  */
 public interface ZnUserWordsMapper extends BaseMapper<ZnUserWords> {
-    List<ZnUserWords> queryByUserId(@Param("userId")String userId);
+
 }

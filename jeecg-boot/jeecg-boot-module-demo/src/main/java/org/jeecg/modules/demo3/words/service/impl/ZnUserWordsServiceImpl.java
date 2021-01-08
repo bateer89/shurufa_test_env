@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import javax.annotation.Resource;
-import java.util.List;
-
 /**
  * @Description: 用户任务表
  * @Author: jeecg-boot
@@ -18,10 +15,5 @@ import java.util.List;
  */
 @Service
 public class ZnUserWordsServiceImpl extends ServiceImpl<ZnUserWordsMapper, ZnUserWords> implements IZnUserWordsService {
-    @Resource
-    ZnUserWordsMapper znUserWordsMapper;
-    @Override
-    public List<ZnUserWords> queryByUserId(String userId) {
-        return znUserWordsMapper.queryByUserId(userId);
-    }
+
 }

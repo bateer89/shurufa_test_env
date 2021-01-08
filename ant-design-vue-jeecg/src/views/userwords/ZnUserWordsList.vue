@@ -60,6 +60,11 @@
                 <a-input placeholder="请输入反馈备注" v-model="queryParam.feedbackRemark"></a-input>
               </a-form-item>
             </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="反馈错误类型">
+                <a-input placeholder="请输入反馈错误类型" v-model="queryParam.feedbackWrongType"></a-input>
+              </a-form-item>
+            </a-col>
           </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
@@ -257,6 +262,12 @@
             dataIndex: 'feedbackRemark'
           },
           {
+            title:'反馈错误类型',
+            align:"center",
+            sorter: true,
+            dataIndex: 'feedbackWrongType'
+          },
+          {
             title: '操作',
             dataIndex: 'action',
             align:"center",
@@ -266,11 +277,11 @@
           }
         ],
         url: {
-          list: "/userwords/znUserWords/list",
-          delete: "/userwords/znUserWords/delete",
-          deleteBatch: "/userwords/znUserWords/deleteBatch",
-          exportXlsUrl: "/userwords/znUserWords/exportXls",
-          importExcelUrl: "userwords/znUserWords/importExcel",
+          list: "/words/znUserWords/list",
+          delete: "/words/znUserWords/delete",
+          deleteBatch: "/words/znUserWords/deleteBatch",
+          exportXlsUrl: "/words/znUserWords/exportXls",
+          importExcelUrl: "words/znUserWords/importExcel",
           
         },
         dictOptions:{},
@@ -301,6 +312,7 @@
         fieldList.push({type:'string',value:'inputJ',text:'简码成功输入',dictCode:''})
         fieldList.push({type:'int',value:'feedbackType',text:'反馈类型',dictCode:''})
         fieldList.push({type:'string',value:'feedbackRemark',text:'反馈备注',dictCode:''})
+        fieldList.push({type:'int',value:'feedbackWrongType',text:'反馈错误类型',dictCode:''})
         this.superFieldList = fieldList
       }
     }

@@ -98,4 +98,8 @@ public class ZnUserWords implements Serializable {
 	@Excel(name = "反馈备注", width = 15)
     @ApiModelProperty(value = "反馈备注")
     private java.lang.String feedbackRemark;
+	/**反馈错误类型*/
+	@Excel(name = "反馈错误类型", width = 15)
+    @ApiModelProperty(value = "反馈错误类型")
+    private java.lang.Integer feedbackWrongType;
 }

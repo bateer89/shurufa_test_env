@@ -58,6 +58,11 @@
               <a-input v-decorator="['feedbackRemark']" placeholder="请输入反馈备注" disabled ></a-input>
             </a-form-item>
           </a-col>
+          <a-col :span="24">
+            <a-form-item label="反馈错误类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['feedbackWrongType']" placeholder="请输入反馈错误类型" style="width: 100%" disabled/>
+            </a-form-item>
+          </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">
             <a-button @click="submitForm">提 交</a-button>
           </a-col>
@@ -115,9 +120,9 @@
         validatorRules: {
         },
         url: {
-          add: "/userwords/znUserWords/add",
-          edit: "/userwords/znUserWords/edit",
-          queryById: "/userwords/znUserWords/queryById"
+          add: "/words/znUserWords/add",
+          edit: "/words/znUserWords/edit",
+          queryById: "/words/znUserWords/queryById"
         }
       }
     },
@@ -153,7 +158,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'userId','wordsId','sequenceQ','sequenceJ','groupId','ifChecked','ifPassed','input','inputJ','feedbackType','feedbackRemark'))
+          this.form.setFieldsValue(pick(this.model,'userId','wordsId','sequenceQ','sequenceJ','groupId','ifChecked','ifPassed','input','inputJ','feedbackType','feedbackRemark','feedbackWrongType'))
         })
       },
       //渲染流程表单数据
@@ -199,7 +204,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'userId','wordsId','sequenceQ','sequenceJ','groupId','ifChecked','ifPassed','input','inputJ','feedbackType','feedbackRemark'))
+        this.form.setFieldsValue(pick(row,'userId','wordsId','sequenceQ','sequenceJ','groupId','ifChecked','ifPassed','input','inputJ','feedbackType','feedbackRemark','feedbackWrongType'))
       },
     }
   }
