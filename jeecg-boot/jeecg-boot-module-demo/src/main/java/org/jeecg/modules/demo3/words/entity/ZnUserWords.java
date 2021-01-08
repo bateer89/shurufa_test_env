@@ -18,37 +18,37 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * @Description: 用户汉字完成表
+ * @Description: 用户任务表
  * @Author: jeecg-boot
- * @Date:   2021-01-06
+ * @Date:   2021-01-08
  * @Version: V1.0
  */
 @Data
 @TableName("zn_user_words")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="zn_user_words对象", description="用户汉字完成表")
+@ApiModel(value="zn_user_words对象", description="用户任务表")
 public class ZnUserWords implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**主键*/
+	/**id*/
 	@TableId(type = IdType.ASSIGN_ID)
-    @ApiModelProperty(value = "主键")
-    private java.lang.String id;
+    @ApiModelProperty(value = "id")
+    private java.lang.Integer id;
 	/**创建人*/
     @ApiModelProperty(value = "创建人")
     private java.lang.String createBy;
 	/**创建日期*/
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "创建日期")
     private java.util.Date createTime;
 	/**更新人*/
     @ApiModelProperty(value = "更新人")
     private java.lang.String updateBy;
 	/**更新日期*/
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "更新日期")
     private java.util.Date updateTime;
 	/**所属部门*/
@@ -82,13 +82,13 @@ public class ZnUserWords implements Serializable {
 	@Excel(name = "是否通过", width = 15)
     @ApiModelProperty(value = "是否通过")
     private java.lang.Integer ifPassed;
-	/**成功的输入*/
-	@Excel(name = "成功的输入", width = 15)
-    @ApiModelProperty(value = "成功的输入")
+	/**全码成功输入*/
+	@Excel(name = "全码成功输入", width = 15)
+    @ApiModelProperty(value = "全码成功输入")
     private java.lang.String input;
-	/**成功的输入*/
-	@Excel(name = "成功的输入", width = 15)
-    @ApiModelProperty(value = "成功的输入")
+	/**简码成功输入*/
+	@Excel(name = "简码成功输入", width = 15)
+    @ApiModelProperty(value = "简码成功输入")
     private java.lang.String inputJ;
 	/**反馈类型*/
 	@Excel(name = "反馈类型", width = 15)

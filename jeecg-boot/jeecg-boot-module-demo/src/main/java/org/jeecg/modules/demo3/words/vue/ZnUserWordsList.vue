@@ -16,6 +16,16 @@
           </a-col>
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="全码键盘序">
+                <a-input placeholder="请输入全码键盘序" v-model="queryParam.sequenceQ"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="简码键盘序">
+                <a-input placeholder="请输入简码键盘序" v-model="queryParam.sequenceJ"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="分组id">
                 <a-input placeholder="请输入分组id" v-model="queryParam.groupId"></a-input>
               </a-form-item>
@@ -31,8 +41,13 @@
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="成功的输入">
-                <a-input placeholder="请输入成功的输入" v-model="queryParam.input"></a-input>
+              <a-form-item label="全码成功输入">
+                <a-input placeholder="请输入全码成功输入" v-model="queryParam.input"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="简码成功输入">
+                <a-input placeholder="请输入简码成功输入" v-model="queryParam.inputJ"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
@@ -64,7 +79,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('用户汉字完成表')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('用户任务表')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -162,7 +177,7 @@
     },
     data () {
       return {
-        description: '用户汉字完成表管理页面',
+        description: '用户任务表管理页面',
         // 表头
         columns: [
           {
@@ -178,41 +193,67 @@
           {
             title:'用户id',
             align:"center",
+            sorter: true,
             dataIndex: 'userId'
           },
           {
             title:'汉字id',
             align:"center",
+            sorter: true,
             dataIndex: 'wordsId'
+          },
+          {
+            title:'全码键盘序',
+            align:"center",
+            sorter: true,
+            dataIndex: 'sequenceQ'
+          },
+          {
+            title:'简码键盘序',
+            align:"center",
+            sorter: true,
+            dataIndex: 'sequenceJ'
           },
           {
             title:'分组id',
             align:"center",
+            sorter: true,
             dataIndex: 'groupId'
           },
           {
             title:'是否检查过',
             align:"center",
+            sorter: true,
             dataIndex: 'ifChecked'
           },
           {
             title:'是否通过',
             align:"center",
+            sorter: true,
             dataIndex: 'ifPassed'
           },
           {
-            title:'成功的输入',
+            title:'全码成功输入',
             align:"center",
+            sorter: true,
             dataIndex: 'input'
+          },
+          {
+            title:'简码成功输入',
+            align:"center",
+            sorter: true,
+            dataIndex: 'inputJ'
           },
           {
             title:'反馈类型',
             align:"center",
+            sorter: true,
             dataIndex: 'feedbackType'
           },
           {
             title:'反馈备注',
             align:"center",
+            sorter: true,
             dataIndex: 'feedbackRemark'
           },
           {
@@ -251,10 +292,13 @@
         let fieldList=[];
         fieldList.push({type:'string',value:'userId',text:'用户id',dictCode:''})
         fieldList.push({type:'int',value:'wordsId',text:'汉字id',dictCode:''})
+        fieldList.push({type:'string',value:'sequenceQ',text:'全码键盘序',dictCode:''})
+        fieldList.push({type:'string',value:'sequenceJ',text:'简码键盘序',dictCode:''})
         fieldList.push({type:'int',value:'groupId',text:'分组id',dictCode:''})
         fieldList.push({type:'int',value:'ifChecked',text:'是否检查过',dictCode:''})
         fieldList.push({type:'int',value:'ifPassed',text:'是否通过',dictCode:''})
-        fieldList.push({type:'string',value:'input',text:'成功的输入',dictCode:''})
+        fieldList.push({type:'string',value:'input',text:'全码成功输入',dictCode:''})
+        fieldList.push({type:'string',value:'inputJ',text:'简码成功输入',dictCode:''})
         fieldList.push({type:'int',value:'feedbackType',text:'反馈类型',dictCode:''})
         fieldList.push({type:'string',value:'feedbackRemark',text:'反馈备注',dictCode:''})
         this.superFieldList = fieldList

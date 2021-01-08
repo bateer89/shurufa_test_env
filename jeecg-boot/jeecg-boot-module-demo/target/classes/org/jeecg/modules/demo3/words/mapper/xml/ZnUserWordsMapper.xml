@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jeecg.modules.demo3.words.mapper.ZnUserWordsMapper">
-	<resultMap id="ZnUserWords" type="org.jeecg.modules.demo3.words.entity.ZnUserWords" >
-		<result column="id" property="id" jdbcType="VARCHAR"/>
-		<result column="create_by" property="createBy" jdbcType="VARCHAR"/>
-		<result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-		<result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
-		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
-		<result column="user_id" property="userId" jdbcType="VARCHAR"/>
-		<result column="sys_org_code" property="sysOrgCode" jdbcType="VARCHAR"/>
-		<result column="words_id" property="wordsId" jdbcType="VARCHAR"/>
-		<result column="group_id" property="groupId" jdbcType="VARCHAR"/>
-		<result column="if_checked" property="ifChecked" jdbcType="VARCHAR"/>
-		<result column="if_passed" property="ifPassed" jdbcType="VARCHAR"/>
-		<result column="input" property="input" jdbcType="VARCHAR"/>
-		<result column="input_j" property="inputJ" jdbcType="VARCHAR"/>
-		<result column="sequence_q" property="sequenceQ" jdbcType="VARCHAR"/>
-		<result column="sequence_j" property="sequenceJ" jdbcType="VARCHAR"/>
-		<result column="feedback_type" property="feedbackType" jdbcType="VARCHAR"/>
-		<result column="feedback_remark" property="feedbackRemark" jdbcType="VARCHAR"/>
-	</resultMap>
+    <resultMap id="ZnUserWords" type="org.jeecg.modules.demo3.words.entity.ZnUserWords" >
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="sys_org_code" property="sysOrgCode" jdbcType="VARCHAR"/>
+        <result column="words_id" property="wordsId" jdbcType="VARCHAR"/>
+        <result column="group_id" property="groupId" jdbcType="VARCHAR"/>
+        <result column="if_checked" property="ifChecked" jdbcType="VARCHAR"/>
+        <result column="if_passed" property="ifPassed" jdbcType="VARCHAR"/>
+        <result column="input" property="input" jdbcType="VARCHAR"/>
+        <result column="input_j" property="inputJ" jdbcType="VARCHAR"/>
+        <result column="sequence_q" property="sequenceQ" jdbcType="VARCHAR"/>
+        <result column="sequence_j" property="sequenceJ" jdbcType="VARCHAR"/>
+        <result column="feedback_type" property="feedbackType" jdbcType="VARCHAR"/>
+        <result column="feedback_remark" property="feedbackRemark" jdbcType="VARCHAR"/>
+    </resultMap>
     <!-- 通过userid获取-->
     <select id="queryByUserId" parameterType="String"  resultMap="ZnUserWords">
-		select * from zn_user_words
-		where user_id = #{userId} and if_checked != 1
-	</select>
+                select * from zn_user_words
+                where user_id = #{userId} and if_checked != 1
+        </select>
 </mapper>
