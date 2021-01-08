@@ -10,24 +10,44 @@
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="键盘序">
-              <a-input placeholder="请输入键盘序" v-model="queryParam.keyboardSequence"></a-input>
+            <a-form-item label="全码">
+              <a-input placeholder="请输入全码" v-model="queryParam.keyboardSequence"></a-input>
             </a-form-item>
           </a-col>
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="code1">
-                <a-input placeholder="请输入code1" v-model="queryParam.code1"></a-input>
+              <a-form-item label="简码1">
+                <a-input placeholder="请输入简码1" v-model="queryParam.keyboardSimpleSequence1"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="code2">
-                <a-input placeholder="请输入code2" v-model="queryParam.code2"></a-input>
+              <a-form-item label="简码2">
+                <a-input placeholder="请输入简码2" v-model="queryParam.keyboardSimpleSequence2"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="code3">
-                <a-input placeholder="请输入code3" v-model="queryParam.code3"></a-input>
+              <a-form-item label="简码3">
+                <a-input placeholder="请输入简码3" v-model="queryParam.keyboardSimpleSequence3"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="全码笔画">
+                <a-input placeholder="请输入全码笔画" v-model="queryParam.allStrokes"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="简码笔画1">
+                <a-input placeholder="请输入简码笔画1" v-model="queryParam.simpleStrokes1"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="简码笔画2">
+                <a-input placeholder="请输入简码笔画2" v-model="queryParam.simpleStrokes2"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="简码笔画3">
+                <a-input placeholder="请输入简码笔画3" v-model="queryParam.simpleStrokes3"></a-input>
               </a-form-item>
             </a-col>
           </template>
@@ -49,7 +69,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('汉字对照表')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('汉字表')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -147,7 +167,7 @@
     },
     data () {
       return {
-        description: '汉字对照表管理页面',
+        description: '汉字表管理页面',
         // 表头
         columns: [
           {
@@ -167,28 +187,52 @@
             dataIndex: 'words'
           },
           {
-            title:'键盘序',
+            title:'全码',
             align:"center",
             sorter: true,
             dataIndex: 'keyboardSequence'
           },
           {
-            title:'code1',
+            title:'简码1',
             align:"center",
             sorter: true,
-            dataIndex: 'code1'
+            dataIndex: 'keyboardSimpleSequence1'
           },
           {
-            title:'code2',
+            title:'简码2',
             align:"center",
             sorter: true,
-            dataIndex: 'code2'
+            dataIndex: 'keyboardSimpleSequence2'
           },
           {
-            title:'code3',
+            title:'简码3',
             align:"center",
             sorter: true,
-            dataIndex: 'code3'
+            dataIndex: 'keyboardSimpleSequence3'
+          },
+          {
+            title:'全码笔画',
+            align:"center",
+            sorter: true,
+            dataIndex: 'allStrokes'
+          },
+          {
+            title:'简码笔画1',
+            align:"center",
+            sorter: true,
+            dataIndex: 'simpleStrokes1'
+          },
+          {
+            title:'简码笔画2',
+            align:"center",
+            sorter: true,
+            dataIndex: 'simpleStrokes2'
+          },
+          {
+            title:'简码笔画3',
+            align:"center",
+            sorter: true,
+            dataIndex: 'simpleStrokes3'
           },
           {
             title: '操作',
@@ -225,10 +269,14 @@
       getSuperFieldList(){
         let fieldList=[];
         fieldList.push({type:'string',value:'words',text:'汉字',dictCode:''})
-        fieldList.push({type:'string',value:'keyboardSequence',text:'键盘序',dictCode:''})
-        fieldList.push({type:'string',value:'code1',text:'code1',dictCode:''})
-        fieldList.push({type:'string',value:'code2',text:'code2',dictCode:''})
-        fieldList.push({type:'string',value:'code3',text:'code3',dictCode:''})
+        fieldList.push({type:'string',value:'keyboardSequence',text:'全码',dictCode:''})
+        fieldList.push({type:'string',value:'keyboardSimpleSequence1',text:'简码1',dictCode:''})
+        fieldList.push({type:'string',value:'keyboardSimpleSequence2',text:'简码2',dictCode:''})
+        fieldList.push({type:'string',value:'keyboardSimpleSequence3',text:'简码3',dictCode:''})
+        fieldList.push({type:'string',value:'allStrokes',text:'全码笔画',dictCode:''})
+        fieldList.push({type:'string',value:'simpleStrokes1',text:'简码笔画1',dictCode:''})
+        fieldList.push({type:'string',value:'simpleStrokes2',text:'简码笔画2',dictCode:''})
+        fieldList.push({type:'string',value:'simpleStrokes3',text:'简码笔画3',dictCode:''})
         this.superFieldList = fieldList
       }
     }

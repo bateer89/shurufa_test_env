@@ -1,4 +1,4 @@
-package org.jeecg.modules.demo3.words.controller;
+package org.jeecg.modules.demo3.userwords.controller;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.demo3.words.entity.ZnWords;
-import org.jeecg.modules.demo3.words.service.IZnWordsService;
+import org.jeecg.modules.demo3.userwords.entity.ZnUserWords;
+import org.jeecg.modules.demo3.userwords.service.IZnUserWordsService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,66 +37,66 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 
  /**
- * @Description: 汉字表
+ * @Description: 用户任务表
  * @Author: jeecg-boot
  * @Date:   2021-01-08
  * @Version: V1.0
  */
-@Api(tags="汉字表")
+@Api(tags="用户任务表")
 @RestController
-@RequestMapping("/words/znWords")
+@RequestMapping("/userwords/znUserWords")
 @Slf4j
-public class ZnWordsController extends JeecgController<ZnWords, IZnWordsService> {
+public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserWordsService> {
 	@Autowired
-	private IZnWordsService znWordsService;
+	private IZnUserWordsService znUserWordsService;
 	
 	/**
 	 * 分页列表查询
 	 *
-	 * @param znWords
+	 * @param znUserWords
 	 * @param pageNo
 	 * @param pageSize
 	 * @param req
 	 * @return
 	 */
-	@AutoLog(value = "汉字表-分页列表查询")
-	@ApiOperation(value="汉字表-分页列表查询", notes="汉字表-分页列表查询")
+	@AutoLog(value = "用户任务表-分页列表查询")
+	@ApiOperation(value="用户任务表-分页列表查询", notes="用户任务表-分页列表查询")
 	@GetMapping(value = "/list")
-	public Result<?> queryPageList(ZnWords znWords,
+	public Result<?> queryPageList(ZnUserWords znUserWords,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<ZnWords> queryWrapper = QueryGenerator.initQueryWrapper(znWords, req.getParameterMap());
-		Page<ZnWords> page = new Page<ZnWords>(pageNo, pageSize);
-		IPage<ZnWords> pageList = znWordsService.page(page, queryWrapper);
+		QueryWrapper<ZnUserWords> queryWrapper = QueryGenerator.initQueryWrapper(znUserWords, req.getParameterMap());
+		Page<ZnUserWords> page = new Page<ZnUserWords>(pageNo, pageSize);
+		IPage<ZnUserWords> pageList = znUserWordsService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
 	
 	/**
 	 *   添加
 	 *
-	 * @param znWords
+	 * @param znUserWords
 	 * @return
 	 */
-	@AutoLog(value = "汉字表-添加")
-	@ApiOperation(value="汉字表-添加", notes="汉字表-添加")
+	@AutoLog(value = "用户任务表-添加")
+	@ApiOperation(value="用户任务表-添加", notes="用户任务表-添加")
 	@PostMapping(value = "/add")
-	public Result<?> add(@RequestBody ZnWords znWords) {
-		znWordsService.save(znWords);
+	public Result<?> add(@RequestBody ZnUserWords znUserWords) {
+		znUserWordsService.save(znUserWords);
 		return Result.OK("添加成功！");
 	}
 	
 	/**
 	 *  编辑
 	 *
-	 * @param znWords
+	 * @param znUserWords
 	 * @return
 	 */
-	@AutoLog(value = "汉字表-编辑")
-	@ApiOperation(value="汉字表-编辑", notes="汉字表-编辑")
+	@AutoLog(value = "用户任务表-编辑")
+	@ApiOperation(value="用户任务表-编辑", notes="用户任务表-编辑")
 	@PutMapping(value = "/edit")
-	public Result<?> edit(@RequestBody ZnWords znWords) {
-		znWordsService.updateById(znWords);
+	public Result<?> edit(@RequestBody ZnUserWords znUserWords) {
+		znUserWordsService.updateById(znUserWords);
 		return Result.OK("编辑成功!");
 	}
 	
@@ -106,11 +106,11 @@ public class ZnWordsController extends JeecgController<ZnWords, IZnWordsService>
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "汉字表-通过id删除")
-	@ApiOperation(value="汉字表-通过id删除", notes="汉字表-通过id删除")
+	@AutoLog(value = "用户任务表-通过id删除")
+	@ApiOperation(value="用户任务表-通过id删除", notes="用户任务表-通过id删除")
 	@DeleteMapping(value = "/delete")
 	public Result<?> delete(@RequestParam(name="id",required=true) String id) {
-		znWordsService.removeById(id);
+		znUserWordsService.removeById(id);
 		return Result.OK("删除成功!");
 	}
 	
@@ -120,11 +120,11 @@ public class ZnWordsController extends JeecgController<ZnWords, IZnWordsService>
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "汉字表-批量删除")
-	@ApiOperation(value="汉字表-批量删除", notes="汉字表-批量删除")
+	@AutoLog(value = "用户任务表-批量删除")
+	@ApiOperation(value="用户任务表-批量删除", notes="用户任务表-批量删除")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
-		this.znWordsService.removeByIds(Arrays.asList(ids.split(",")));
+		this.znUserWordsService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
 	
@@ -134,26 +134,26 @@ public class ZnWordsController extends JeecgController<ZnWords, IZnWordsService>
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "汉字表-通过id查询")
-	@ApiOperation(value="汉字表-通过id查询", notes="汉字表-通过id查询")
+	@AutoLog(value = "用户任务表-通过id查询")
+	@ApiOperation(value="用户任务表-通过id查询", notes="用户任务表-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<?> queryById(@RequestParam(name="id",required=true) String id) {
-		ZnWords znWords = znWordsService.getById(id);
-		if(znWords==null) {
+		ZnUserWords znUserWords = znUserWordsService.getById(id);
+		if(znUserWords==null) {
 			return Result.error("未找到对应数据");
 		}
-		return Result.OK(znWords);
+		return Result.OK(znUserWords);
 	}
 
     /**
     * 导出excel
     *
     * @param request
-    * @param znWords
+    * @param znUserWords
     */
     @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, ZnWords znWords) {
-        return super.exportXls(request, znWords, ZnWords.class, "汉字表");
+    public ModelAndView exportXls(HttpServletRequest request, ZnUserWords znUserWords) {
+        return super.exportXls(request, znUserWords, ZnUserWords.class, "用户任务表");
     }
 
     /**
@@ -165,7 +165,7 @@ public class ZnWordsController extends JeecgController<ZnWords, IZnWordsService>
     */
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, ZnWords.class);
+        return super.importExcel(request, response, ZnUserWords.class);
     }
 
 }

@@ -9,23 +9,43 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="键盘序" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['keyboardSequence']" placeholder="请输入键盘序" disabled ></a-input>
+            <a-form-item label="全码" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['keyboardSequence']" placeholder="请输入全码" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="code1" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['code1']" placeholder="请输入code1" disabled ></a-input>
+            <a-form-item label="简码1" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['keyboardSimpleSequence1']" placeholder="请输入简码1" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="code2" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['code2']" placeholder="请输入code2" disabled ></a-input>
+            <a-form-item label="简码2" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['keyboardSimpleSequence2']" placeholder="请输入简码2" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="code3" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['code3']" placeholder="请输入code3" disabled ></a-input>
+            <a-form-item label="简码3" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['keyboardSimpleSequence3']" placeholder="请输入简码3" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="全码笔画" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['allStrokes']" placeholder="请输入全码笔画" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="简码笔画1" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['simpleStrokes1']" placeholder="请输入简码笔画1" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="简码笔画2" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['simpleStrokes2']" placeholder="请输入简码笔画2" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="简码笔画3" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['simpleStrokes3']" placeholder="请输入简码笔画3" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">
@@ -123,7 +143,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'words','keyboardSequence','code1','code2','code3'))
+          this.form.setFieldsValue(pick(this.model,'words','keyboardSequence','keyboardSimpleSequence1','keyboardSimpleSequence2','keyboardSimpleSequence3','allStrokes','simpleStrokes1','simpleStrokes2','simpleStrokes3'))
         })
       },
       //渲染流程表单数据
@@ -169,7 +189,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'words','keyboardSequence','code1','code2','code3'))
+        this.form.setFieldsValue(pick(row,'words','keyboardSequence','keyboardSimpleSequence1','keyboardSimpleSequence2','keyboardSimpleSequence3','allStrokes','simpleStrokes1','simpleStrokes2','simpleStrokes3'))
       },
     }
   }

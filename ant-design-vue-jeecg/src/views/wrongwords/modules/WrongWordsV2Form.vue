@@ -19,8 +19,13 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="成功的输入" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['input']" placeholder="请输入成功的输入" disabled ></a-input>
+            <a-form-item label="全码成功输入" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['input']" placeholder="请输入全码成功输入" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="简码成功输入" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['inputJ']" placeholder="请输入简码成功输入" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -143,7 +148,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'username','words','wordsId','input','feedbackType','feedbackRemark','ifPassed','userId','ifChecked'))
+          this.form.setFieldsValue(pick(this.model,'username','words','wordsId','input','inputJ','feedbackType','feedbackRemark','ifPassed','userId','ifChecked'))
         })
       },
       //渲染流程表单数据
@@ -189,7 +194,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'username','words','wordsId','input','feedbackType','feedbackRemark','ifPassed','userId','ifChecked'))
+        this.form.setFieldsValue(pick(row,'username','words','wordsId','input','inputJ','feedbackType','feedbackRemark','ifPassed','userId','ifChecked'))
       },
     }
   }
