@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.demo3.wrongwords.entity.WrongWords;
-import org.jeecg.modules.demo3.wrongwords.service.IWrongWordsService;
+import org.jeecg.modules.demo3.wrongwords.entity.WrongWordsV2;
+import org.jeecg.modules.demo3.wrongwords.service.IWrongWordsV2Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,66 +37,66 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 
  /**
- * @Description: wrong_words
+ * @Description: wrong_words_v2
  * @Author: jeecg-boot
- * @Date:   2021-01-06
+ * @Date:   2021-01-07
  * @Version: V1.0
  */
-@Api(tags="wrong_words")
+@Api(tags="wrong_words_v2")
 @RestController
-@RequestMapping("/wrongwords/wrongWords")
+@RequestMapping("/wrongwords/wrongWordsV2")
 @Slf4j
-public class WrongWordsController extends JeecgController<WrongWords, IWrongWordsService> {
+public class WrongWordsV2Controller extends JeecgController<WrongWordsV2, IWrongWordsV2Service> {
 	@Autowired
-	private IWrongWordsService wrongWordsService;
+	private IWrongWordsV2Service wrongWordsV2Service;
 	
 	/**
 	 * 分页列表查询
 	 *
-	 * @param wrongWords
+	 * @param wrongWordsV2
 	 * @param pageNo
 	 * @param pageSize
 	 * @param req
 	 * @return
 	 */
-	@AutoLog(value = "wrong_words-分页列表查询")
-	@ApiOperation(value="wrong_words-分页列表查询", notes="wrong_words-分页列表查询")
+	@AutoLog(value = "wrong_words_v2-分页列表查询")
+	@ApiOperation(value="wrong_words_v2-分页列表查询", notes="wrong_words_v2-分页列表查询")
 	@GetMapping(value = "/list")
-	public Result<?> queryPageList(WrongWords wrongWords,
+	public Result<?> queryPageList(WrongWordsV2 wrongWordsV2,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<WrongWords> queryWrapper = QueryGenerator.initQueryWrapper(wrongWords, req.getParameterMap());
-		Page<WrongWords> page = new Page<WrongWords>(pageNo, pageSize);
-		IPage<WrongWords> pageList = wrongWordsService.page(page, queryWrapper);
+		QueryWrapper<WrongWordsV2> queryWrapper = QueryGenerator.initQueryWrapper(wrongWordsV2, req.getParameterMap());
+		Page<WrongWordsV2> page = new Page<WrongWordsV2>(pageNo, pageSize);
+		IPage<WrongWordsV2> pageList = wrongWordsV2Service.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
 	
 	/**
 	 *   添加
 	 *
-	 * @param wrongWords
+	 * @param wrongWordsV2
 	 * @return
 	 */
-	@AutoLog(value = "wrong_words-添加")
-	@ApiOperation(value="wrong_words-添加", notes="wrong_words-添加")
+	@AutoLog(value = "wrong_words_v2-添加")
+	@ApiOperation(value="wrong_words_v2-添加", notes="wrong_words_v2-添加")
 	@PostMapping(value = "/add")
-	public Result<?> add(@RequestBody WrongWords wrongWords) {
-		wrongWordsService.save(wrongWords);
+	public Result<?> add(@RequestBody WrongWordsV2 wrongWordsV2) {
+		wrongWordsV2Service.save(wrongWordsV2);
 		return Result.OK("添加成功！");
 	}
 	
 	/**
 	 *  编辑
 	 *
-	 * @param wrongWords
+	 * @param wrongWordsV2
 	 * @return
 	 */
-	@AutoLog(value = "wrong_words-编辑")
-	@ApiOperation(value="wrong_words-编辑", notes="wrong_words-编辑")
+	@AutoLog(value = "wrong_words_v2-编辑")
+	@ApiOperation(value="wrong_words_v2-编辑", notes="wrong_words_v2-编辑")
 	@PutMapping(value = "/edit")
-	public Result<?> edit(@RequestBody WrongWords wrongWords) {
-		wrongWordsService.updateById(wrongWords);
+	public Result<?> edit(@RequestBody WrongWordsV2 wrongWordsV2) {
+		wrongWordsV2Service.updateById(wrongWordsV2);
 		return Result.OK("编辑成功!");
 	}
 	
@@ -106,11 +106,11 @@ public class WrongWordsController extends JeecgController<WrongWords, IWrongWord
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "wrong_words-通过id删除")
-	@ApiOperation(value="wrong_words-通过id删除", notes="wrong_words-通过id删除")
+	@AutoLog(value = "wrong_words_v2-通过id删除")
+	@ApiOperation(value="wrong_words_v2-通过id删除", notes="wrong_words_v2-通过id删除")
 	@DeleteMapping(value = "/delete")
 	public Result<?> delete(@RequestParam(name="id",required=true) String id) {
-		wrongWordsService.removeById(id);
+		wrongWordsV2Service.removeById(id);
 		return Result.OK("删除成功!");
 	}
 	
@@ -120,11 +120,11 @@ public class WrongWordsController extends JeecgController<WrongWords, IWrongWord
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "wrong_words-批量删除")
-	@ApiOperation(value="wrong_words-批量删除", notes="wrong_words-批量删除")
+	@AutoLog(value = "wrong_words_v2-批量删除")
+	@ApiOperation(value="wrong_words_v2-批量删除", notes="wrong_words_v2-批量删除")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
-		this.wrongWordsService.removeByIds(Arrays.asList(ids.split(",")));
+		this.wrongWordsV2Service.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
 	
@@ -134,26 +134,26 @@ public class WrongWordsController extends JeecgController<WrongWords, IWrongWord
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "wrong_words-通过id查询")
-	@ApiOperation(value="wrong_words-通过id查询", notes="wrong_words-通过id查询")
+	@AutoLog(value = "wrong_words_v2-通过id查询")
+	@ApiOperation(value="wrong_words_v2-通过id查询", notes="wrong_words_v2-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<?> queryById(@RequestParam(name="id",required=true) String id) {
-		WrongWords wrongWords = wrongWordsService.getById(id);
-		if(wrongWords==null) {
+		WrongWordsV2 wrongWordsV2 = wrongWordsV2Service.getById(id);
+		if(wrongWordsV2==null) {
 			return Result.error("未找到对应数据");
 		}
-		return Result.OK(wrongWords);
+		return Result.OK(wrongWordsV2);
 	}
 
     /**
     * 导出excel
     *
     * @param request
-    * @param wrongWords
+    * @param wrongWordsV2
     */
     @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, WrongWords wrongWords) {
-        return super.exportXls(request, wrongWords, WrongWords.class, "wrong_words");
+    public ModelAndView exportXls(HttpServletRequest request, WrongWordsV2 wrongWordsV2) {
+        return super.exportXls(request, wrongWordsV2, WrongWordsV2.class, "wrong_words_v2");
     }
 
     /**
@@ -165,7 +165,7 @@ public class WrongWordsController extends JeecgController<WrongWords, IWrongWord
     */
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, WrongWords.class);
+        return super.importExcel(request, response, WrongWordsV2.class);
     }
 
 }

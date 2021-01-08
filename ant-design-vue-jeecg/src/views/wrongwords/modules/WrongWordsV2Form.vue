@@ -4,43 +4,48 @@
       <a-form :form="form" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-item label="用户id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['userId']" placeholder="请输入用户id"  ></a-input>
+            <a-form-item label="登录账号" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['username']" placeholder="请输入登录账号" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="汉字" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['words']" placeholder="请输入汉字" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="汉字id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['wordsId']" placeholder="请输入汉字id" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="分组id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['groupId']" placeholder="请输入分组id" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="是否检查过" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['ifChecked']" placeholder="请输入是否检查过" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="是否通过" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['ifPassed']" placeholder="请输入是否通过" style="width: 100%" />
+              <a-input-number v-decorator="['wordsId']" placeholder="请输入汉字id" style="width: 100%" disabled/>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="成功的输入" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['input']" placeholder="请输入成功的输入"  ></a-input>
+              <a-input v-decorator="['input']" placeholder="请输入成功的输入" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="反馈类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['feedbackType']" placeholder="请输入反馈类型" style="width: 100%" />
+              <a-input-number v-decorator="['feedbackType']" placeholder="请输入反馈类型" style="width: 100%" disabled/>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="反馈备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['feedbackRemark']" placeholder="请输入反馈备注"  ></a-input>
+              <a-input v-decorator="['feedbackRemark']" placeholder="请输入反馈备注" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="是否通过" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['ifPassed']" placeholder="请输入是否通过" style="width: 100%" disabled/>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="用户id" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['userId']" placeholder="请输入用户id" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="是否检查过" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['ifChecked']" placeholder="请输入是否检查过" style="width: 100%" disabled/>
             </a-form-item>
           </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">
@@ -60,7 +65,7 @@
   import JFormContainer from '@/components/jeecg/JFormContainer'
 
   export default {
-    name: 'WrongWordsForm',
+    name: 'WrongWordsV2Form',
     components: {
       JFormContainer,
     },
@@ -100,9 +105,9 @@
         validatorRules: {
         },
         url: {
-          add: "/wrongwords/wrongWords/add",
-          edit: "/wrongwords/wrongWords/edit",
-          queryById: "/wrongwords/wrongWords/queryById"
+          add: "/wrongwords/wrongWordsV2/add",
+          edit: "/wrongwords/wrongWordsV2/edit",
+          queryById: "/wrongwords/wrongWordsV2/queryById"
         }
       }
     },
@@ -138,7 +143,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'userId','wordsId','groupId','ifChecked','ifPassed','input','feedbackType','feedbackRemark'))
+          this.form.setFieldsValue(pick(this.model,'username','words','wordsId','input','feedbackType','feedbackRemark','ifPassed','userId','ifChecked'))
         })
       },
       //渲染流程表单数据
@@ -184,7 +189,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'userId','wordsId','groupId','ifChecked','ifPassed','input','feedbackType','feedbackRemark'))
+        this.form.setFieldsValue(pick(row,'username','words','wordsId','input','feedbackType','feedbackRemark','ifPassed','userId','ifChecked'))
       },
     }
   }

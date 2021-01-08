@@ -6,7 +6,7 @@
     :closable="false"
     @close="close"
     :visible="visible">
-    <wrong-words-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit" normal></wrong-words-form>
+    <wrong-words-v2-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit" normal></wrong-words-v2-form>
     <div class="drawer-footer">
       <a-button @click="handleCancel" style="margin-bottom: 0;">关闭</a-button>
       <a-button v-if="!disableSubmit"  @click="handleOk" type="primary" style="margin-bottom: 0;">提交</a-button>
@@ -16,12 +16,12 @@
 
 <script>
 
-  import WrongWordsForm from './WrongWordsForm'
+  import WrongWordsV2Form from './WrongWordsV2Form'
 
   export default {
-    name: 'WrongWordsModal',
+    name: 'WrongWordsV2Modal',
     components: {
-      WrongWordsForm
+      WrongWordsV2Form
     },
     data () {
       return {

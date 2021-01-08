@@ -8,17 +8,17 @@
     :okButtonProps="{ class:{'jee-hidden': disableSubmit} }"
     @cancel="handleCancel"
     cancelText="关闭">
-    <wrong-words-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit"></wrong-words-form>
+    <wrong-words-v2-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit"></wrong-words-v2-form>
   </j-modal>
 </template>
 
 <script>
 
-  import WrongWordsForm from './WrongWordsForm'
+  import WrongWordsV2Form from './WrongWordsV2Form'
   export default {
-    name: 'WrongWordsModal',
+    name: 'WrongWordsV2Modal',
     components: {
-      WrongWordsForm
+      WrongWordsV2Form
     },
     data () {
       return {

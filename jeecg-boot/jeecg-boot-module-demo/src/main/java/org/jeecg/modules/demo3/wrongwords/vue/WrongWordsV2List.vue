@@ -4,43 +4,6 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
-          <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="汉字">
-              <a-input placeholder="请输入汉字" v-model="queryParam.words"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="键盘序">
-              <a-input placeholder="请输入键盘序" v-model="queryParam.keyboardSequence"></a-input>
-            </a-form-item>
-          </a-col>
-          <template v-if="toggleSearchStatus">
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="code1">
-                <a-input placeholder="请输入code1" v-model="queryParam.code1"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="code2">
-                <a-input placeholder="请输入code2" v-model="queryParam.code2"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="code3">
-                <a-input placeholder="请输入code3" v-model="queryParam.code3"></a-input>
-              </a-form-item>
-            </a-col>
-          </template>
-          <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-              <a @click="handleToggleSearch" style="margin-left: 8px">
-                {{ toggleSearchStatus ? '收起' : '展开' }}
-                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-              </a>
-            </span>
-          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -49,7 +12,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('汉字对照表')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('wrong_words_v2')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -126,7 +89,7 @@
       </a-table>
     </div>
 
-    <zn-words-modal ref="modalForm" @ok="modalFormOk"></zn-words-modal>
+    <wrong-words-v2-modal ref="modalForm" @ok="modalFormOk"></wrong-words-v2-modal>
   </a-card>
 </template>
 
@@ -135,19 +98,19 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import ZnWordsModal from './modules/ZnWordsModal'
+  import WrongWordsV2Modal from './modules/WrongWordsV2Modal'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
   export default {
-    name: 'ZnWordsList',
+    name: 'WrongWordsV2List',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      ZnWordsModal,
+      WrongWordsV2Modal,
       JSuperQuery,
     },
     data () {
       return {
-        description: '汉字对照表管理页面',
+        description: 'wrong_words_v2管理页面',
         // 表头
         columns: [
           {
@@ -161,34 +124,58 @@
             }
           },
           {
+            title:'登录账号',
+            align:"center",
+            sorter: true,
+            dataIndex: 'username'
+          },
+          {
             title:'汉字',
             align:"center",
             sorter: true,
             dataIndex: 'words'
           },
           {
-            title:'键盘序',
+            title:'汉字id',
             align:"center",
             sorter: true,
-            dataIndex: 'keyboardSequence'
+            dataIndex: 'wordsId'
           },
           {
-            title:'code1',
+            title:'成功的输入',
             align:"center",
             sorter: true,
-            dataIndex: 'code1'
+            dataIndex: 'input'
           },
           {
-            title:'code2',
+            title:'反馈类型',
             align:"center",
             sorter: true,
-            dataIndex: 'code2'
+            dataIndex: 'feedbackType'
           },
           {
-            title:'code3',
+            title:'反馈备注',
             align:"center",
             sorter: true,
-            dataIndex: 'code3'
+            dataIndex: 'feedbackRemark'
+          },
+          {
+            title:'是否通过',
+            align:"center",
+            sorter: true,
+            dataIndex: 'ifPassed'
+          },
+          {
+            title:'用户id',
+            align:"center",
+            sorter: true,
+            dataIndex: 'userId'
+          },
+          {
+            title:'是否检查过',
+            align:"center",
+            sorter: true,
+            dataIndex: 'ifChecked'
           },
           {
             title: '操作',
@@ -200,11 +187,11 @@
           }
         ],
         url: {
-          list: "/words/znWords/list",
-          delete: "/words/znWords/delete",
-          deleteBatch: "/words/znWords/deleteBatch",
-          exportXlsUrl: "/words/znWords/exportXls",
-          importExcelUrl: "words/znWords/importExcel",
+          list: "/wrongwords/wrongWordsV2/list",
+          delete: "/wrongwords/wrongWordsV2/delete",
+          deleteBatch: "/wrongwords/wrongWordsV2/deleteBatch",
+          exportXlsUrl: "/wrongwords/wrongWordsV2/exportXls",
+          importExcelUrl: "wrongwords/wrongWordsV2/importExcel",
           
         },
         dictOptions:{},
@@ -224,11 +211,15 @@
       },
       getSuperFieldList(){
         let fieldList=[];
+        fieldList.push({type:'string',value:'username',text:'登录账号',dictCode:''})
         fieldList.push({type:'string',value:'words',text:'汉字',dictCode:''})
-        fieldList.push({type:'string',value:'keyboardSequence',text:'键盘序',dictCode:''})
-        fieldList.push({type:'string',value:'code1',text:'code1',dictCode:''})
-        fieldList.push({type:'string',value:'code2',text:'code2',dictCode:''})
-        fieldList.push({type:'string',value:'code3',text:'code3',dictCode:''})
+        fieldList.push({type:'int',value:'wordsId',text:'汉字id',dictCode:''})
+        fieldList.push({type:'string',value:'input',text:'成功的输入',dictCode:''})
+        fieldList.push({type:'int',value:'feedbackType',text:'反馈类型',dictCode:''})
+        fieldList.push({type:'string',value:'feedbackRemark',text:'反馈备注',dictCode:''})
+        fieldList.push({type:'int',value:'ifPassed',text:'是否通过',dictCode:''})
+        fieldList.push({type:'string',value:'userId',text:'用户id',dictCode:''})
+        fieldList.push({type:'int',value:'ifChecked',text:'是否检查过',dictCode:''})
         this.superFieldList = fieldList
       }
     }

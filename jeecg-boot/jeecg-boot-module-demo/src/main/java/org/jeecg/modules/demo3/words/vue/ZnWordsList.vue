@@ -4,6 +4,43 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="汉字">
+              <a-input placeholder="请输入汉字" v-model="queryParam.words"></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <a-form-item label="键盘序">
+              <a-input placeholder="请输入键盘序" v-model="queryParam.keyboardSequence"></a-input>
+            </a-form-item>
+          </a-col>
+          <template v-if="toggleSearchStatus">
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="code1">
+                <a-input placeholder="请输入code1" v-model="queryParam.code1"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="code2">
+                <a-input placeholder="请输入code2" v-model="queryParam.code2"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="code3">
+                <a-input placeholder="请输入code3" v-model="queryParam.code3"></a-input>
+              </a-form-item>
+            </a-col>
+          </template>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
+            <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
+              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
+              <a @click="handleToggleSearch" style="margin-left: 8px">
+                {{ toggleSearchStatus ? '收起' : '展开' }}
+                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
+              </a>
+            </span>
+          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -126,47 +163,32 @@
           {
             title:'汉字',
             align:"center",
+            sorter: true,
             dataIndex: 'words'
           },
           {
             title:'键盘序',
             align:"center",
+            sorter: true,
             dataIndex: 'keyboardSequence'
           },
           {
             title:'code1',
             align:"center",
+            sorter: true,
             dataIndex: 'code1'
           },
           {
             title:'code2',
             align:"center",
+            sorter: true,
             dataIndex: 'code2'
           },
           {
             title:'code3',
             align:"center",
+            sorter: true,
             dataIndex: 'code3'
-          },
-          {
-            title:'是否正确0:no;1:yes',
-            align:"center",
-            dataIndex: 'ifAllPassed'
-          },
-          {
-            title:'是否检查过',
-            align:"center",
-            dataIndex: 'ifChecked'
-          },
-          {
-            title:'检查者id',
-            align:"center",
-            dataIndex: 'checkerid'
-          },
-          {
-            title:'检查者name',
-            align:"center",
-            dataIndex: 'checkername'
           },
           {
             title: '操作',
@@ -207,10 +229,6 @@
         fieldList.push({type:'string',value:'code1',text:'code1',dictCode:''})
         fieldList.push({type:'string',value:'code2',text:'code2',dictCode:''})
         fieldList.push({type:'string',value:'code3',text:'code3',dictCode:''})
-        fieldList.push({type:'int',value:'ifAllPassed',text:'是否正确0:no;1:yes',dictCode:''})
-        fieldList.push({type:'int',value:'ifChecked',text:'是否检查过',dictCode:''})
-        fieldList.push({type:'string',value:'checkerid',text:'检查者id',dictCode:''})
-        fieldList.push({type:'string',value:'checkername',text:'检查者name',dictCode:''})
         this.superFieldList = fieldList
       }
     }

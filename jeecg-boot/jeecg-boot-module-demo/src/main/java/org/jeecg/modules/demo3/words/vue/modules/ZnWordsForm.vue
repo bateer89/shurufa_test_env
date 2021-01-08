@@ -5,47 +5,27 @@
         <a-row>
           <a-col :span="24">
             <a-form-item label="汉字" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['words']" placeholder="请输入汉字"  ></a-input>
+              <a-input v-decorator="['words']" placeholder="请输入汉字" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="键盘序" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['keyboardSequence']" placeholder="请输入键盘序"  ></a-input>
+              <a-input v-decorator="['keyboardSequence']" placeholder="请输入键盘序" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="code1" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['code1']" placeholder="请输入code1"  ></a-input>
+              <a-input v-decorator="['code1']" placeholder="请输入code1" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="code2" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['code2']" placeholder="请输入code2"  ></a-input>
+              <a-input v-decorator="['code2']" placeholder="请输入code2" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="code3" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['code3']" placeholder="请输入code3"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="是否正确0:no;1:yes" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['ifAllPassed']" placeholder="请输入是否正确0:no;1:yes" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="是否检查过" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number v-decorator="['ifChecked']" placeholder="请输入是否检查过" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="检查者id" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['checkerid']" placeholder="请输入检查者id"  ></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="检查者name" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['checkername']" placeholder="请输入检查者name"  ></a-input>
+              <a-input v-decorator="['code3']" placeholder="请输入code3" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">
@@ -143,7 +123,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'words','keyboardSequence','code1','code2','code3','ifAllPassed','ifChecked','checkerid','checkername'))
+          this.form.setFieldsValue(pick(this.model,'words','keyboardSequence','code1','code2','code3'))
         })
       },
       //渲染流程表单数据
@@ -189,7 +169,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'words','keyboardSequence','code1','code2','code3','ifAllPassed','ifChecked','checkerid','checkername'))
+        this.form.setFieldsValue(pick(row,'words','keyboardSequence','code1','code2','code3'))
       },
     }
   }
