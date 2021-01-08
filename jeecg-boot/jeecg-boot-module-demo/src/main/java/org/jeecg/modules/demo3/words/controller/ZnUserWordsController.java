@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
-import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.demo3.words.entity.ZnUserWords;
@@ -26,7 +25,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
-import org.jeecg.modules.demo3.words.service.IZnWordsService;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -44,21 +42,18 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 
  /**
- * @Description: 用户汉字完成表
+ * @Description: 用户任务表
  * @Author: jeecg-boot
- * @Date:   2021-01-06
+ * @Date:   2021-01-08
  * @Version: V1.0
  */
-@Api(tags="用户汉字完成表")
+@Api(tags="用户任务表")
 @RestController
 @RequestMapping("/words/znUserWords")
 @Slf4j
 public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserWordsService> {
 	@Autowired
 	private IZnUserWordsService znUserWordsService;
-	@Autowired
-	private IZnWordsService znWordsService;
-
 	
 	/**
 	 * 分页列表查询
@@ -69,8 +64,8 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
 	 * @param req
 	 * @return
 	 */
-	@AutoLog(value = "用户汉字完成表-分页列表查询")
-	@ApiOperation(value="用户汉字完成表-分页列表查询", notes="用户汉字完成表-分页列表查询")
+	@AutoLog(value = "用户任务表-分页列表查询")
+	@ApiOperation(value="用户任务表-分页列表查询", notes="用户任务表-分页列表查询")
 	@GetMapping(value = "/list")
 	public Result<?> queryPageList(ZnUserWords znUserWords,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
@@ -88,8 +83,8 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
 	 * @param znUserWords
 	 * @return
 	 */
-	@AutoLog(value = "用户汉字完成表-添加")
-	@ApiOperation(value="用户汉字完成表-添加", notes="用户汉字完成表-添加")
+	@AutoLog(value = "用户任务表-添加")
+	@ApiOperation(value="用户任务表-添加", notes="用户任务表-添加")
 	@PostMapping(value = "/add")
 	public Result<?> add(@RequestBody ZnUserWords znUserWords) {
 		znUserWordsService.save(znUserWords);
@@ -102,8 +97,8 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
 	 * @param znUserWords
 	 * @return
 	 */
-	@AutoLog(value = "用户汉字完成表-编辑")
-	@ApiOperation(value="用户汉字完成表-编辑", notes="用户汉字完成表-编辑")
+	@AutoLog(value = "用户任务表-编辑")
+	@ApiOperation(value="用户任务表-编辑", notes="用户任务表-编辑")
 	@PutMapping(value = "/edit")
 	public Result<?> edit(@RequestBody ZnUserWords znUserWords) {
 		znUserWordsService.updateById(znUserWords);
@@ -116,8 +111,8 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "用户汉字完成表-通过id删除")
-	@ApiOperation(value="用户汉字完成表-通过id删除", notes="用户汉字完成表-通过id删除")
+	@AutoLog(value = "用户任务表-通过id删除")
+	@ApiOperation(value="用户任务表-通过id删除", notes="用户任务表-通过id删除")
 	@DeleteMapping(value = "/delete")
 	public Result<?> delete(@RequestParam(name="id",required=true) String id) {
 		znUserWordsService.removeById(id);
@@ -130,8 +125,8 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "用户汉字完成表-批量删除")
-	@ApiOperation(value="用户汉字完成表-批量删除", notes="用户汉字完成表-批量删除")
+	@AutoLog(value = "用户任务表-批量删除")
+	@ApiOperation(value="用户任务表-批量删除", notes="用户任务表-批量删除")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
 		this.znUserWordsService.removeByIds(Arrays.asList(ids.split(",")));
@@ -144,8 +139,8 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "用户汉字完成表-通过id查询")
-	@ApiOperation(value="用户汉字完成表-通过id查询", notes="用户汉字完成表-通过id查询")
+	@AutoLog(value = "用户任务表-通过id查询")
+	@ApiOperation(value="用户任务表-通过id查询", notes="用户任务表-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<?> queryById(@RequestParam(name="id",required=true) String id) {
 		ZnUserWords znUserWords = znUserWordsService.getById(id);
@@ -163,7 +158,7 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
     */
     @RequestMapping(value = "/exportXls")
     public ModelAndView exportXls(HttpServletRequest request, ZnUserWords znUserWords) {
-        return super.exportXls(request, znUserWords, ZnUserWords.class, "用户汉字完成表");
+        return super.exportXls(request, znUserWords, ZnUserWords.class, "用户任务表");
     }
 
     /**
