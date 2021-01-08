@@ -4,48 +4,58 @@
       <a-form :form="form" slot="detail">
         <a-row>
           <a-col :span="24">
-            <a-form-item label="汉字" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['words']" placeholder="请输入汉字" disabled ></a-input>
+            <a-form-item label="用户id" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['userId']" placeholder="请输入用户id" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="全码" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['keyboardSequence']" placeholder="请输入全码" disabled ></a-input>
+            <a-form-item label="汉字id" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['wordsId']" placeholder="请输入汉字id" style="width: 100%" disabled/>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="简码1" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['keyboardSimpleSequence1']" placeholder="请输入简码1" disabled ></a-input>
+            <a-form-item label="全码键盘序" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['sequenceQ']" placeholder="请输入全码键盘序" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="简码2" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['keyboardSimpleSequence2']" placeholder="请输入简码2" disabled ></a-input>
+            <a-form-item label="简码键盘序" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['sequenceJ']" placeholder="请输入简码键盘序" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="简码3" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['keyboardSimpleSequence3']" placeholder="请输入简码3" disabled ></a-input>
+            <a-form-item label="分组id" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['groupId']" placeholder="请输入分组id" style="width: 100%" disabled/>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="全码笔画" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['allStrokes']" placeholder="请输入全码笔画" disabled ></a-input>
+            <a-form-item label="是否检查过" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['ifChecked']" placeholder="请输入是否检查过" style="width: 100%" disabled/>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="简码笔画1" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['simpleStrokes1']" placeholder="请输入简码笔画1" disabled ></a-input>
+            <a-form-item label="是否通过" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['ifPassed']" placeholder="请输入是否通过" style="width: 100%" disabled/>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="简码笔画2" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['simpleStrokes2']" placeholder="请输入简码笔画2" disabled ></a-input>
+            <a-form-item label="全码成功输入" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['input']" placeholder="请输入全码成功输入" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="简码笔画3" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-decorator="['simpleStrokes3']" placeholder="请输入简码笔画3" disabled ></a-input>
+            <a-form-item label="简码成功输入" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['inputJ']" placeholder="请输入简码成功输入" disabled ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="反馈类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input-number v-decorator="['feedbackType']" placeholder="请输入反馈类型" style="width: 100%" disabled/>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="反馈备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input v-decorator="['feedbackRemark']" placeholder="请输入反馈备注" disabled ></a-input>
             </a-form-item>
           </a-col>
           <a-col v-if="showFlowSubmitButton" :span="24" style="text-align: center">
@@ -65,7 +75,7 @@
   import JFormContainer from '@/components/jeecg/JFormContainer'
 
   export default {
-    name: 'ZnWordsForm',
+    name: 'ZnUserWordsForm',
     components: {
       JFormContainer,
     },
@@ -105,9 +115,9 @@
         validatorRules: {
         },
         url: {
-          add: "/words/znWords/add",
-          edit: "/words/znWords/edit",
-          queryById: "/words/znWords/queryById"
+          add: "/userwords/znUserWords/add",
+          edit: "/userwords/znUserWords/edit",
+          queryById: "/userwords/znUserWords/queryById"
         }
       }
     },
@@ -143,7 +153,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'words','keyboardSequence','keyboardSimpleSequence1','keyboardSimpleSequence2','keyboardSimpleSequence3','allStrokes','simpleStrokes1','simpleStrokes2','simpleStrokes3'))
+          this.form.setFieldsValue(pick(this.model,'userId','wordsId','sequenceQ','sequenceJ','groupId','ifChecked','ifPassed','input','inputJ','feedbackType','feedbackRemark'))
         })
       },
       //渲染流程表单数据
@@ -189,7 +199,7 @@
         })
       },
       popupCallback(row){
-        this.form.setFieldsValue(pick(row,'words','keyboardSequence','keyboardSimpleSequence1','keyboardSimpleSequence2','keyboardSimpleSequence3','allStrokes','simpleStrokes1','simpleStrokes2','simpleStrokes3'))
+        this.form.setFieldsValue(pick(row,'userId','wordsId','sequenceQ','sequenceJ','groupId','ifChecked','ifPassed','input','inputJ','feedbackType','feedbackRemark'))
       },
     }
   }

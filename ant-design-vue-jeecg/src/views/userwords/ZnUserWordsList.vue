@@ -5,49 +5,59 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="汉字">
-              <a-input placeholder="请输入汉字" v-model="queryParam.words"></a-input>
+            <a-form-item label="用户id">
+              <a-input placeholder="请输入用户id" v-model="queryParam.userId"></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="全码">
-              <a-input placeholder="请输入全码" v-model="queryParam.keyboardSequence"></a-input>
+            <a-form-item label="汉字id">
+              <a-input placeholder="请输入汉字id" v-model="queryParam.wordsId"></a-input>
             </a-form-item>
           </a-col>
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="简码1">
-                <a-input placeholder="请输入简码1" v-model="queryParam.keyboardSimpleSequence1"></a-input>
+              <a-form-item label="全码键盘序">
+                <a-input placeholder="请输入全码键盘序" v-model="queryParam.sequenceQ"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="简码2">
-                <a-input placeholder="请输入简码2" v-model="queryParam.keyboardSimpleSequence2"></a-input>
+              <a-form-item label="简码键盘序">
+                <a-input placeholder="请输入简码键盘序" v-model="queryParam.sequenceJ"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="简码3">
-                <a-input placeholder="请输入简码3" v-model="queryParam.keyboardSimpleSequence3"></a-input>
+              <a-form-item label="分组id">
+                <a-input placeholder="请输入分组id" v-model="queryParam.groupId"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="全码笔画">
-                <a-input placeholder="请输入全码笔画" v-model="queryParam.allStrokes"></a-input>
+              <a-form-item label="是否检查过">
+                <a-input placeholder="请输入是否检查过" v-model="queryParam.ifChecked"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="简码笔画1">
-                <a-input placeholder="请输入简码笔画1" v-model="queryParam.simpleStrokes1"></a-input>
+              <a-form-item label="是否通过">
+                <a-input placeholder="请输入是否通过" v-model="queryParam.ifPassed"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="简码笔画2">
-                <a-input placeholder="请输入简码笔画2" v-model="queryParam.simpleStrokes2"></a-input>
+              <a-form-item label="全码成功输入">
+                <a-input placeholder="请输入全码成功输入" v-model="queryParam.input"></a-input>
               </a-form-item>
             </a-col>
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="简码笔画3">
-                <a-input placeholder="请输入简码笔画3" v-model="queryParam.simpleStrokes3"></a-input>
+              <a-form-item label="简码成功输入">
+                <a-input placeholder="请输入简码成功输入" v-model="queryParam.inputJ"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="反馈类型">
+                <a-input placeholder="请输入反馈类型" v-model="queryParam.feedbackType"></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="反馈备注">
+                <a-input placeholder="请输入反馈备注" v-model="queryParam.feedbackRemark"></a-input>
               </a-form-item>
             </a-col>
           </template>
@@ -69,7 +79,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('汉字表')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('用户任务表')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -146,7 +156,7 @@
       </a-table>
     </div>
 
-    <zn-words-modal ref="modalForm" @ok="modalFormOk"></zn-words-modal>
+    <zn-user-words-modal ref="modalForm" @ok="modalFormOk"></zn-user-words-modal>
   </a-card>
 </template>
 
@@ -155,19 +165,19 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import ZnWordsModal from './modules/ZnWordsModal'
+  import ZnUserWordsModal from './modules/ZnUserWordsModal'
   import JSuperQuery from '@/components/jeecg/JSuperQuery.vue'
 
   export default {
-    name: 'ZnWordsList',
+    name: 'ZnUserWordsList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      ZnWordsModal,
+      ZnUserWordsModal,
       JSuperQuery,
     },
     data () {
       return {
-        description: '汉字表管理页面',
+        description: '用户任务表管理页面',
         // 表头
         columns: [
           {
@@ -181,58 +191,70 @@
             }
           },
           {
-            title:'汉字',
+            title:'用户id',
             align:"center",
             sorter: true,
-            dataIndex: 'words'
+            dataIndex: 'userId'
           },
           {
-            title:'全码',
+            title:'汉字id',
             align:"center",
             sorter: true,
-            dataIndex: 'keyboardSequence'
+            dataIndex: 'wordsId'
           },
           {
-            title:'简码1',
+            title:'全码键盘序',
             align:"center",
             sorter: true,
-            dataIndex: 'keyboardSimpleSequence1'
+            dataIndex: 'sequenceQ'
           },
           {
-            title:'简码2',
+            title:'简码键盘序',
             align:"center",
             sorter: true,
-            dataIndex: 'keyboardSimpleSequence2'
+            dataIndex: 'sequenceJ'
           },
           {
-            title:'简码3',
+            title:'分组id',
             align:"center",
             sorter: true,
-            dataIndex: 'keyboardSimpleSequence3'
+            dataIndex: 'groupId'
           },
           {
-            title:'全码笔画',
+            title:'是否检查过',
             align:"center",
             sorter: true,
-            dataIndex: 'allStrokes'
+            dataIndex: 'ifChecked'
           },
           {
-            title:'简码笔画1',
+            title:'是否通过',
             align:"center",
             sorter: true,
-            dataIndex: 'simpleStrokes1'
+            dataIndex: 'ifPassed'
           },
           {
-            title:'简码笔画2',
+            title:'全码成功输入',
             align:"center",
             sorter: true,
-            dataIndex: 'simpleStrokes2'
+            dataIndex: 'input'
           },
           {
-            title:'简码笔画3',
+            title:'简码成功输入',
             align:"center",
             sorter: true,
-            dataIndex: 'simpleStrokes3'
+            dataIndex: 'inputJ'
+          },
+          {
+            title:'反馈类型',
+            align:"center",
+            sorter: true,
+            dataIndex: 'feedbackType'
+          },
+          {
+            title:'反馈备注',
+            align:"center",
+            sorter: true,
+            dataIndex: 'feedbackRemark'
           },
           {
             title: '操作',
@@ -244,11 +266,11 @@
           }
         ],
         url: {
-          list: "/words/znWords/list",
-          delete: "/words/znWords/delete",
-          deleteBatch: "/words/znWords/deleteBatch",
-          exportXlsUrl: "/words/znWords/exportXls",
-          importExcelUrl: "words/znWords/importExcel",
+          list: "/userwords/znUserWords/list",
+          delete: "/userwords/znUserWords/delete",
+          deleteBatch: "/userwords/znUserWords/deleteBatch",
+          exportXlsUrl: "/userwords/znUserWords/exportXls",
+          importExcelUrl: "userwords/znUserWords/importExcel",
           
         },
         dictOptions:{},
@@ -268,15 +290,17 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'words',text:'汉字',dictCode:''})
-        fieldList.push({type:'string',value:'keyboardSequence',text:'全码',dictCode:''})
-        fieldList.push({type:'string',value:'keyboardSimpleSequence1',text:'简码1',dictCode:''})
-        fieldList.push({type:'string',value:'keyboardSimpleSequence2',text:'简码2',dictCode:''})
-        fieldList.push({type:'string',value:'keyboardSimpleSequence3',text:'简码3',dictCode:''})
-        fieldList.push({type:'string',value:'allStrokes',text:'全码笔画',dictCode:''})
-        fieldList.push({type:'string',value:'simpleStrokes1',text:'简码笔画1',dictCode:''})
-        fieldList.push({type:'string',value:'simpleStrokes2',text:'简码笔画2',dictCode:''})
-        fieldList.push({type:'string',value:'simpleStrokes3',text:'简码笔画3',dictCode:''})
+        fieldList.push({type:'string',value:'userId',text:'用户id',dictCode:''})
+        fieldList.push({type:'int',value:'wordsId',text:'汉字id',dictCode:''})
+        fieldList.push({type:'string',value:'sequenceQ',text:'全码键盘序',dictCode:''})
+        fieldList.push({type:'string',value:'sequenceJ',text:'简码键盘序',dictCode:''})
+        fieldList.push({type:'int',value:'groupId',text:'分组id',dictCode:''})
+        fieldList.push({type:'int',value:'ifChecked',text:'是否检查过',dictCode:''})
+        fieldList.push({type:'int',value:'ifPassed',text:'是否通过',dictCode:''})
+        fieldList.push({type:'string',value:'input',text:'全码成功输入',dictCode:''})
+        fieldList.push({type:'string',value:'inputJ',text:'简码成功输入',dictCode:''})
+        fieldList.push({type:'int',value:'feedbackType',text:'反馈类型',dictCode:''})
+        fieldList.push({type:'string',value:'feedbackRemark',text:'反馈备注',dictCode:''})
         this.superFieldList = fieldList
       }
     }

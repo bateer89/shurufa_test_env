@@ -18,37 +18,37 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * @Description: 汉字对照表
+ * @Description: 汉字表
  * @Author: jeecg-boot
- * @Date:   2021-01-07
+ * @Date:   2021-01-08
  * @Version: V1.0
  */
 @Data
 @TableName("zn_words")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="zn_words对象", description="汉字对照表")
+@ApiModel(value="zn_words对象", description="汉字表")
 public class ZnWords implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	/**主键*/
 	@TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "主键")
-    private java.lang.String id;
+    private java.lang.Integer id;
 	/**创建人*/
     @ApiModelProperty(value = "创建人")
     private java.lang.String createBy;
 	/**创建日期*/
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "创建日期")
     private java.util.Date createTime;
 	/**更新人*/
     @ApiModelProperty(value = "更新人")
     private java.lang.String updateBy;
 	/**更新日期*/
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(value = "更新日期")
     private java.util.Date updateTime;
 	/**所属部门*/
@@ -58,38 +58,38 @@ public class ZnWords implements Serializable {
 	@Excel(name = "汉字", width = 15)
     @ApiModelProperty(value = "汉字")
     private java.lang.String words;
-	/**键盘序*/
-	@Excel(name = "键盘序", width = 15)
-    @ApiModelProperty(value = "键盘序")
+	/**全码*/
+	@Excel(name = "全码", width = 15)
+    @ApiModelProperty(value = "全码")
     private java.lang.String keyboardSequence;
-	/**键盘序*/
-	@Excel(name = "键盘序", width = 15)
-    @ApiModelProperty(value = "键盘序")
-    private java.lang.String keyboard_simple_sequence1;
-	/**键盘序*/
-	@Excel(name = "键盘序", width = 15)
-    @ApiModelProperty(value = "键盘序")
-    private java.lang.String keyboard_simple_sequence2;
-	/**键盘序*/
-	@Excel(name = "键盘序", width = 15)
-    @ApiModelProperty(value = "键盘序")
-    private java.lang.String keyboard_simple_sequence3;
+	/**简码1*/
+	@Excel(name = "简码1", width = 15)
+    @ApiModelProperty(value = "简码1")
+    private java.lang.String keyboardSimpleSequence1;
+	/**简码2*/
+	@Excel(name = "简码2", width = 15)
+    @ApiModelProperty(value = "简码2")
+    private java.lang.String keyboardSimpleSequence2;
+	/**简码3*/
+	@Excel(name = "简码3", width = 15)
+    @ApiModelProperty(value = "简码3")
+    private java.lang.String keyboardSimpleSequence3;
 	/**全码笔画*/
 	@Excel(name = "全码笔画", width = 15)
     @ApiModelProperty(value = "全码笔画")
-    private java.lang.String all_strokes;
-	/**简码笔画*/
-	@Excel(name = "简码笔画", width = 15)
-    @ApiModelProperty(value = "简码笔画")
-    private java.lang.String simple_strokes1;
-	/**简码笔画*/
-	@Excel(name = "简码笔画", width = 15)
-    @ApiModelProperty(value = "简码笔画")
-    private java.lang.String simple_strokes2;
-	/**简码笔画*/
-	@Excel(name = "简码笔画", width = 15)
-    @ApiModelProperty(value = "简码笔画")
-    private java.lang.String simple_strokes3;
+    private java.lang.String allStrokes;
+	/**简码笔画1*/
+	@Excel(name = "简码笔画1", width = 15)
+    @ApiModelProperty(value = "简码笔画1")
+    private java.lang.String simpleStrokes1;
+	/**简码笔画2*/
+	@Excel(name = "简码笔画2", width = 15)
+    @ApiModelProperty(value = "简码笔画2")
+    private java.lang.String simpleStrokes2;
+	/**简码笔画3*/
+	@Excel(name = "简码笔画3", width = 15)
+    @ApiModelProperty(value = "简码笔画3")
+    private java.lang.String simpleStrokes3;
 	/**code1*/
 	@Excel(name = "code1", width = 15)
     @ApiModelProperty(value = "code1")

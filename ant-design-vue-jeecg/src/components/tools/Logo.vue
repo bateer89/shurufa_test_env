@@ -21,7 +21,7 @@
     props: {
       title: {
         type: String,
-        default: 'Jeecg-Boot Pro',
+        default: '输入法测试平台',
         required: false
       },
       showTitle: {
