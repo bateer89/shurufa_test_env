@@ -1,6 +1,7 @@
 package org.jeecg.modules.demo3.words.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,10 +10,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.demo3.words.entity.ZnUserWords;
+import org.jeecg.modules.demo3.words.entity.ZnWords;
 import org.jeecg.modules.demo3.words.service.IZnUserWordsService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -20,6 +25,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
+import org.jeecg.modules.demo3.words.service.IZnWordsService;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -49,6 +55,8 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserWordsService> {
 	@Autowired
 	private IZnUserWordsService znUserWordsService;
+	 @Autowired
+	 private IZnWordsService znWordsService;
 	
 	/**
 	 * 分页列表查询
@@ -167,5 +175,28 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
         return super.importExcel(request, response, ZnUserWords.class);
     }
+
+	 /**
+	  * 获取该用户的字
+	  *
+	  * @return
+	  */
+	 @AutoLog(value = "用户汉字完成表-通过用户id查询")
+	 @ApiOperation(value="用户汉字完成表-通过用户id查询", notes="用户汉字完成表-通过用户id查询")
+	 @GetMapping(value = "/queryWord")
+	 public Result<?> queryWord(HttpServletRequest request) {
+		 //获取登录用户名
+		 LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		 List<ZnUserWords> wordList = znUserWordsService.queryByUserId(sysUser.getId());
+		 if(wordList.size() <= 0) {
+			 return Result.error("该用户没有测试数据");
+		 }
+		 ZnUserWords userWords = wordList.get(0);
+		 ZnWords znWords = znWordsService.getById(userWords.getWordsId());
+		 Map result = new HashMap<>();
+		 result.put("userWord",userWords);
+		 result.put("word",znWords);
+		 return Result.OK(result);
+	 }
 
 }

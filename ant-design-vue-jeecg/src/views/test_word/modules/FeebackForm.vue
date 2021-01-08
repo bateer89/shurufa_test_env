@@ -46,6 +46,22 @@
         <a-radio value="2">
           简码
         </a-radio>
+        <a-radio value="3">
+          全选
+        </a-radio>
+      </a-radio-group>
+    </a-form-model-item>
+    <a-form-model-item label="反馈类型" prop="feedBackType">
+      <a-radio-group v-model="form.feedBackType">
+        <a-radio value="1">
+          结构
+        </a-radio>
+        <a-radio value="2">
+          笔画
+        </a-radio>
+        <a-radio value="3">
+          其他
+        </a-radio>
       </a-radio-group>
     </a-form-model-item>
     <a-form-model-item label="备注" prop="desc">
@@ -85,6 +101,13 @@
               trigger: 'change',
             },
           ],
+          feedBackType: [
+            {
+              required: true,
+              message: '请选择反馈类型',
+              trigger: 'change',
+            },
+          ],
           desc: [{ required: false }],
         },
       };
@@ -95,7 +118,9 @@
         return {
           name: '',
           type: [],
+          feedBackType:[],
           desc: '',
+
         }
       },
       //关闭弹窗
@@ -123,6 +148,7 @@
             userWord.ifPassed = 0;
             userWord.feedbackType = this.form.type;
             userWord.feedbackRemark = this.form.desc;
+            userWord.feedbackWrongType = this.form.feedBackType;
             putAction(`/words/znUserWords/edit`,userWord).then(res=>{
               if(res.success){
                 this.$emit('feebackResult',true);
