@@ -30,7 +30,7 @@
         </div>
     <feeback-form ref="modalForm" @ok="modalFormOk" :wordInfo="wordInfo"
                   @feebackResult="feedbackResult()"></feeback-form>
-    <div style="width: 100%">
+    <div style="width: 100%; margin-top: 5%;margin-left: 20%;">
       <img src="../../assets/sketchMap.png">
     </div>
   </a-card>
