@@ -1,11 +1,16 @@
 <template>
   <a-card :bordered="false" style="align-content: center">
+    <div style="display:flex">
     <div style="   margin-left:42%; width: 100px;
     height: 100px;
     font-size: 70px;
     text-align: center;
     font-family: cursive;
     border: 1px solid rgb(119, 119, 119);">{{char}}
+    </div>
+    <div style="font-size: 25px;margin-left: 40%;">
+      进度：{{lossCount}}/{{allCount}}
+    </div>
     </div>
     <a-form :form="form" :wrapper-col="{ span: 12, offset: 5 }" style="margin-top:10px">
       <a-form-item  label="全码" prop="full" has-feedback :label-col="{ span: 7 }" :wrapper-col="{ span: 8 }" >
@@ -25,6 +30,9 @@
         </div>
     <feeback-form ref="modalForm" @ok="modalFormOk" :wordInfo="wordInfo"
                   @feebackResult="feedbackResult()"></feeback-form>
+    <div style="width: 100%">
+      <img src="../../assets/sketchMap.png">
+    </div>
   </a-card>
 </template>
 
@@ -85,7 +93,9 @@
         wordInfo: '',
         errorStatus: false,
         successStatus: false,
-        submitStatus: true
+        submitStatus: true,
+        allCount:0,
+        lossCount:0,
 
       }
     },
@@ -115,8 +125,16 @@
           } else {
             this.$message.warning(res.message)
           }
+        })
+        getAction(`/words/znUserWords/queryCount`).then(result =>{
+          if(result.success){
+            this.allCount = result.result.allCount;
+            this.lossCount = result.result.lossCount;
+          }
 
         })
+
+
 
       },
 

@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
@@ -196,6 +197,42 @@ public class ZnUserWordsController extends JeecgController<ZnUserWords, IZnUserW
 		 Map result = new HashMap<>();
 		 result.put("userWord",userWords);
 		 result.put("word",znWords);
+		 return Result.OK(result);
+	 }
+
+	 /**
+	  * 获取进度
+	  *
+	  * @return
+	  */
+	 @AutoLog(value = "用户汉字完成表-检测进度")
+	 @ApiOperation(value="用户汉字完成表-检测进度", notes="用户汉字完成表-检测进度")
+	 @GetMapping(value = "/queryCount")
+	 public Result<?> queryCount(HttpServletRequest request) {
+		 //获取登录用户名
+		 LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		 List<ZnUserWords> wordList = znUserWordsService.queryByUserId(sysUser.getId());
+		 if(wordList.size() <= 0) {
+			 return Result.error("该用户没有测试数据");
+		 }
+		 ZnUserWords userWords = wordList.get(0);
+		 ZnUserWords znUserWords = new ZnUserWords();
+		 znUserWords.setUserId(sysUser.getId());
+		 Map<String,String[]> map=new HashMap();
+		 String[] array={sysUser.getId()};
+		 map.put("userId",array);
+		 QueryWrapper<ZnUserWords> queryWrapper = QueryGenerator.initQueryWrapper(znUserWords, map);
+		 int allCount = znUserWordsService.count(queryWrapper);
+		 Map<String,String[]> lossMap=new HashMap();
+		 lossMap.put("userId",array);
+		 String[] checkArr={"0"};
+		 lossMap.put("ifChecked",checkArr);
+		 znUserWords.setIfChecked(0);
+		 QueryWrapper<ZnUserWords> lossWrapper = QueryGenerator.initQueryWrapper(znUserWords, lossMap);
+		 int lossCount = znUserWordsService.count(lossWrapper);
+		 Map result = new HashMap<>();
+		 result.put("allCount",allCount);
+		 result.put("lossCount",lossCount);
 		 return Result.OK(result);
 	 }
 
